@@ -20,4 +20,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:leanback-v17:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
