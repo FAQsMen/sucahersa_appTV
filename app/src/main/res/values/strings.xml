@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">sucahersa_appTV02</string>
+    <string name="fragmentProductos">Fragmentos de Productos</string>
+    <string name="fragmentVideos">Fragmento de video</string>
+    <string name="fragmentPromociones">Fragmento de Promociones</string>
+
+    <string name="redSocial_Facebook">sucahersa.hernandez</string>
+    <string name="redSocial_Twitter">"@sucahersa"</string>
+    <string name="redSocial_PaginaWeb">www.sucahersa.com</string>
+
+    <string name="GP_Consultaprecio">Consulta precios</string>
+    <string name="GP_Descargarecetas">Descarga recetas</string>
+    <string name="GP_Contactanos">Contactanos</string>
+    <string name="GP_Registrate">Regístrate</string>
+    <string name="GP_Canjeapuntos">Canjea puntos</string>
+
+</resources>
