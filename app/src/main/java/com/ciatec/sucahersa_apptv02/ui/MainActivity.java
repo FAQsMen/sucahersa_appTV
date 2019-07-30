@@ -1,10 +1,11 @@
-package com.ciatec.sucahersa_apptv02;
+package com.ciatec.sucahersa_apptv02.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.ciatec.sucahersa_apptv02.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -31,20 +32,18 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
             youTubePlayer.loadPlaylist("PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
         }
-
     }
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         if(youTubeInitializationResult.isUserRecoverableError()){
             youTubeInitializationResult.getErrorDialog(this, 1).show();
-
         }else {
             String error = "Error al inicializar Youtube " + youTubeInitializationResult.toString();
             Toast.makeText(this, error,Toast.LENGTH_LONG).show();
         }
-
     }
+
     protected void onActivityResult (int requestCode, int resultCode, Intent data){
         if(resultCode == 1){
             getYoutubePLayerProvider().initialize(claveYoutube, this);
