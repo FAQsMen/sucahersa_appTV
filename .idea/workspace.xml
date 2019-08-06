@@ -10,30 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6e7fc0c-83bf-46e7-9921-0d92daaadf31" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Producto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Promocion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoAdaptador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/PromocionAdaptador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Promocion.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Promocion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_productos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_productos.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/PromocionAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/PromocionAdaptador.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +39,7 @@
     <session id="1824973249">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.opened" value="2" />
@@ -61,7 +49,7 @@
         <counts>
           <entry key="class" value="2" />
           <entry key="gradle" value="1" />
-          <entry key="java" value="7" />
+          <entry key="java" value="8" />
           <entry key="xml" value="4" />
         </counts>
       </usages-collector>
@@ -69,21 +57,21 @@
         <counts>
           <entry key="CLASS" value="2" />
           <entry key="Groovy" value="1" />
-          <entry key="JAVA" value="7" />
+          <entry key="JAVA" value="8" />
           <entry key="XML" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gradle" value="47" />
-          <entry key="java" value="328" />
+          <entry key="java" value="689" />
           <entry key="xml" value="160" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="47" />
-          <entry key="JAVA" value="328" />
+          <entry key="JAVA" value="689" />
           <entry key="XML" value="160" />
         </counts>
       </usages-collector>
@@ -91,11 +79,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="157" column="30" selection-start-line="157" selection-start-column="30" selection-end-line="157" selection-end-column="30" />
+            <state relative-caret-position="-1047">
+              <caret line="72" column="27" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
+              <folding>
+                <element signature="method#cargarAdaptadorProducto#0;class#MainActivity#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -119,8 +110,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoAdaptador.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="59" column="52" lean-forward="true" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
+            <state relative-caret-position="463">
+              <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -128,17 +119,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Promocion.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+            <state relative-caret-position="374">
+              <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Producto.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/PromocionAdaptador.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="51">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
@@ -167,10 +167,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_productos.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoAdaptador.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Producto.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Promocion.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/PromocionAdaptador.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -409,10 +412,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1862" y="-5" width="1870" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21381216" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21381216" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -421,7 +423,7 @@
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Find" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.3290735" />
-      <window_info anchor="bottom" id="Logcat" order="1" visible="true" weight="0.3290735" />
+      <window_info anchor="bottom" id="Logcat" order="1" weight="0.3290735" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.3290735" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3290735" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.3290735" />
@@ -439,18 +441,6 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>179</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/os/Looper.class">
@@ -492,13 +482,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="157" column="30" selection-start-line="157" selection-start-column="30" selection-end-line="157" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_productos.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="301">
@@ -507,24 +490,41 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoAdaptador.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Producto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="59" column="52" lean-forward="true" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
+        <state relative-caret-position="153">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/Promocion.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        <state relative-caret-position="374">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoAdaptador.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/PromocionAdaptador.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="51">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1047">
+          <caret line="72" column="27" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
+          <folding>
+            <element signature="method#cargarAdaptadorProducto#0;class#MainActivity#0" />
+          </folding>
         </state>
       </provider>
     </entry>

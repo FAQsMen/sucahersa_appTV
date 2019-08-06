@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.ciatec.sucahersa_apptv02.R;
 import com.ciatec.sucahersa_apptv02.cliente.VolleySingleton;
 import com.ciatec.sucahersa_apptv02.modelo.Producto;
+import com.ciatec.sucahersa_apptv02.modelo.Promocion;
 import com.ciatec.sucahersa_apptv02.tools.Constantes;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -65,8 +66,11 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         lManager = new LinearLayoutManager(this);
         lista.setLayoutManager(lManager);
 
-        // Cargar datos en el adaptador
-        cargarAdaptador();
+        // Cargar datos en el adaptador de Productos
+        cargarAdaptadorProducto();
+
+        //Cargar datos Noticias
+        peticionNoticias();
     }
 
     @Override
@@ -124,10 +128,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     }
 
     /**
-     * Carga el adaptador con las metas obtenidas
+     * Carga el adaptador con los productos obtenidos
      * en la respuesta
      */
-    public void cargarAdaptador() {
+    public void cargarAdaptadorProducto() {
         Log.d(TAG, "OBtener_productos: " + Constantes.OBTENER_PRODUCTOS);
         // Petición GET
         VolleySingleton.getInstance(this).addToRequestQueue(
@@ -139,7 +143,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                                     @Override
                                     public void onResponse(JSONArray response) {
                                         // Procesar la respuesta Json
-                                        procesarRespuesta(response);
+                                        procesarRespuestaProducto(response);
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -153,56 +157,57 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 );
     }
 
-    private void procesarRespuesta(JSONArray response) {
+    private void procesarRespuestaProducto(JSONArray response) {
+            try {
+                Producto[] productos = gson.fromJson(response.toString(), Producto[].class);
+                // Inicializar adaptador
+                adapter = new ProductoAdaptador(Arrays.asList(productos), this);
+                // Setear adaptador a la lista
+                lista.setAdapter(adapter);
+
+            } catch (Exception e) {
+                Log.d(TAG, "ERROR:  ..............." + e.getMessage());
+            }
+    }
+
+    public void peticionNoticias() {
+        Log.d(TAG, "OBtener_productos: " + Constantes.OBTENER_NOTICIAS);
+        // Petición GET
+        VolleySingleton.getInstance(this).addToRequestQueue(
+                new JsonArrayRequest(Request.Method.GET,
+                        Constantes.OBTENER_NOTICIAS,
+                        null,
+                        new Response.Listener<JSONArray>() {
+
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                // Procesar la respuesta Json
+                                procesarRespuestaNoticias(response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d(TAG, "Error Volley: " + error.toString());
+                            }
+                        }
+                )
+        );
+    }
+
+    private void procesarRespuestaNoticias(JSONArray response) {
         try {
-            Producto[] productos = gson.fromJson(response.toString(), Producto[].class);
+            Promocion[] noticias = gson.fromJson(response.toString(), Promocion[].class);
             // Inicializar adaptador
-            adapter = new ProductoAdaptador(Arrays.asList(productos), this);
+            // adapter = new ProductoAdaptador(Arrays.asList(productos), this);
             // Setear adaptador a la lista
-            lista.setAdapter(adapter);
+            //lista.setAdapter(adapter);
 
         } catch (Exception e) {
             Log.d(TAG, "ERROR:  ..............." + e.getMessage());
         }
-
     }
 
-    /**
-     * Interpreta los resultados de la respuesta y así
-     * realizar las operaciones correspondientes
-     *
-     * @param response Objeto Json con la respuesta
-     */
-    /*
-    private void procesarRespuesta(JSONObject response) {
-        try {
-            // Obtener atributo "estado"
-            String estado = response.getString("estado");
 
-            switch (estado) {
-                case "1": // EXITO
-                    // Obtener array "metas" Json
-                    JSONArray mensaje = response.getJSONArray("metas");
-                    // Parsear con Gson
-                    Producto[] metas = gson.fromJson(mensaje.toString(), Producto[].class);
-                    // Inicializar adaptador
-                    adapter = new ProductoAdaptador(Arrays.asList(metas), this);
-                    // Setear adaptador a la lista
-                    lista.setAdapter(adapter);
-                    break;
-                case "2": // FALLIDO
-                    String mensaje2 = response.getString("mensaje");
-                    Toast.makeText(
-                            this,
-                            mensaje2,
-                            Toast.LENGTH_LONG).show();
-                    break;
-            }
-
-        } catch (JSONException e) {
-            Log.d(TAG, "ERROR:  ..............." + e.getMessage());
-        }
-
-    }*/
 
 }
