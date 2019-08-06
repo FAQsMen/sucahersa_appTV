@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    >
 
     <!--
     <android.support.v7.widget.CardView
@@ -12,58 +12,54 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="15dp"
         card_view:cardUseCompatPadding="true">
+    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_Producto"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:padding="5dp">
 
-            <ImageView
-                android:id="@+id/img_person"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:src="@mipmap/ic_person" />
-
             <TextView
-                android:id="@+id/item_Nombre"
+                android:id="@+id/item_NombreProducto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-                android:layout_toRightOf="@+id/img_person"
-                android:textSize="20dp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="10dp"
                 android:text="nombre"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginHorizontal="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
-                android:id="@+id/item_FechaEntrada"
+                android:id="@+id/item_Precio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_toRightOf="@+id/item_Nombre"
-                android:textSize="15dp"
-                android:text="fechaentrada"
-                android:layout_marginHorizontal="10dp"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
-                android:id="@+id/item_Asunto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_toRightOf="@+id/item_FechaEntrada"
-                android:text="asunto"
+                android:layout_below="@id/item_NombreProducto"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="7dp"
+                android:text="@string/GP_Consultaprecio"
+                android:layout_marginHorizontal="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
         </RelativeLayout>
+
+    </LinearLayout>
+    <!--
     </android.support.v7.widget.CardView>
     -->
 
