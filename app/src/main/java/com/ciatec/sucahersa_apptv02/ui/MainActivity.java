@@ -52,7 +52,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private ProductoAdaptador adapter;
 
     // Instancia global del recycler view
-    private RecyclerView lista;
+    private RecyclerView listaProductos;
+    private RecyclerView listaProductosEstrella;
 
     // instancia global del administrador
     private RecyclerView.LayoutManager lManager;
@@ -60,6 +61,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private Gson gson = new Gson();
 
     List<Promocion> lista_promociones;
+    List<Producto> lista_procutoEstrella;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +71,11 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
         //youTubePlayerView.initialize(claveAPIYoutube, this);
 
-        lista = (RecyclerView) findViewById(R.id.rcv_productos);
-        lista.setHasFixedSize(true);
+        listaProductos = (RecyclerView) findViewById(R.id.rcv_productos);
+        listaProductos.setHasFixedSize(true);
         // Usar un administrador para LinearLayout
         lManager = new LinearLayoutManager(this);
-        lista.setLayoutManager(lManager);
+        listaProductos.setLayoutManager(lManager);
 
         // Cargar datos en el adaptador de Productos
         cargarAdaptadorProducto();
@@ -93,7 +95,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         if (!fueRestaurado)
         {
             //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
-            youTubePlayer.loadPlaylist("PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
+            youTubePlayer.loadPlaylist("LL3HpgzTq3ErSkGkkG572hkA");
         }
     }
 
@@ -120,26 +122,31 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     @Override
     public void onPlaying() {
         Log.v(TAG, "----------------------- onPlaying -------------------------------");
+        Toast.makeText(MainActivity.this, "onPlaying", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPaused() {
         Log.v(TAG, "----------------------- onPaused -------------------------------");
+        Toast.makeText(MainActivity.this, "onPaused", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onStopped() {
         Log.v(TAG, "----------------------- onStopped -------------------------------");
+        Toast.makeText(MainActivity.this, "onStopped", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onBuffering(boolean b) {
         Log.v(TAG, "----------------------- onBuffering -------------------------------");
+        Toast.makeText(MainActivity.this, "onBuffering", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSeekTo(int i) {
         Log.v(TAG, "----------------------- onSeekTo -------------------------------");
+        Toast.makeText(MainActivity.this, "onSeekTo", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -167,22 +174,46 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                                         Log.d(TAG, "Error Volley: " + error.toString());
                                     }
                                 }
-
                         )
                 );
     }
 
     private void procesarRespuestaProducto(JSONArray response) {
+        if (response != null) {
             try {
+                Log.d(TAG, "Entrando a for de response.................. " + Constantes.OBTENER_NOTICIAS);
+
+                for(int i = 0; i<response.length(); i++){
+                    String estrella = response.getJSONObject(i).getString("estrella");
+                    if(estrella == "1"){//inicializamos la lista donde almacenaremos los objetos Promocion
+                        String id = response.getJSONObject(i).getString("id");
+                        String id_sch = response.getJSONObject(i).getString("idsch");
+                        String nombre = response.getJSONObject(i).getString("nombre");
+                        String imagen = response.getJSONObject(i).getString("imagen");
+
+                        //inicializamos la lista donde almacenaremos los objetos Promocion
+                        lista_procutoEstrella.add(new Producto(id, id_sch, nombre, estrella, imagen));
+                    }
+                }
+                if(lista_procutoEstrella != null){
+                    //Producto Estrella
+                    adapter = new ProductoAdaptador(lista_procutoEstrella,MainActivity.this);
+                    listaProductosEstrella.setAdapter(adapter);
+                }
+
+
                 Producto[] productos = gson.fromJson(response.toString(), Producto[].class);
-                // Inicializar adaptador
+                // Inicializar adaptador Productos Estrella
                 adapter = new ProductoAdaptador(Arrays.asList(productos), this);
                 // Setear adaptador a la lista
-                lista.setAdapter(adapter);
+                listaProductos.setAdapter(adapter);
 
-            } catch (Exception e) {
-                Log.d(TAG, "ERROR:  ..............." + e.getMessage());
+
             }
+            catch(Exception e){
+            Log.d(TAG, "ERROR:  ..............." + e.getMessage());
+            }
+        }
     }
 
     public void peticionNoticias() {
@@ -234,7 +265,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                     String vigencia = response.getJSONObject(i).getString("vigencia");
 
                     //inicializamos la lista donde almacenaremos los objetos Promocion
-
                     lista_promociones.add(new Promocion(id, titulo, contenido, imagen, vigencia));
                 }
             } catch (Exception e) {
