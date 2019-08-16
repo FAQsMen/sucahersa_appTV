@@ -1,18 +1,20 @@
 package com.ciatec.sucahersa_apptv02.ui;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.ciatec.sucahersa_apptv02.R;
 import com.ciatec.sucahersa_apptv02.cliente.VolleySingleton;
 import com.ciatec.sucahersa_apptv02.modelo.Producto;
@@ -25,17 +27,23 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Timer;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener {
 
     String claveAPIYoutube = "AIzaSyBOogQ7p8FGSTfqqyf54j3itv4LuPqr0L0";
     YouTubePlayerView youTubePlayerView;
+
+    TextView txv_titulo;
+    TextView txv_contenido;
+    ImageView imv_noticia;
 
     // Etiqueta de depuracion
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -51,6 +59,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     private Gson gson = new Gson();
 
+    List<Promocion> lista_promociones;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +68,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
         //youTubePlayerView.initialize(claveAPIYoutube, this);
-
 
         lista = (RecyclerView) findViewById(R.id.rcv_productos);
         lista.setHasFixedSize(true);
@@ -71,6 +80,12 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //Cargar datos Noticias
         peticionNoticias();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -104,27 +119,27 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     @Override
     public void onPlaying() {
-
+        Log.v(TAG, "----------------------- onPlaying -------------------------------");
     }
 
     @Override
     public void onPaused() {
-
+        Log.v(TAG, "----------------------- onPaused -------------------------------");
     }
 
     @Override
     public void onStopped() {
-
+        Log.v(TAG, "----------------------- onStopped -------------------------------");
     }
 
     @Override
     public void onBuffering(boolean b) {
-
+        Log.v(TAG, "----------------------- onBuffering -------------------------------");
     }
 
     @Override
     public void onSeekTo(int i) {
-
+        Log.v(TAG, "----------------------- onSeekTo -------------------------------");
     }
 
     /**
@@ -171,7 +186,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     }
 
     public void peticionNoticias() {
-        Log.d(TAG, "OBtener_productos: " + Constantes.OBTENER_NOTICIAS);
+        Log.d(TAG, "Obtener_productos: " + Constantes.OBTENER_NOTICIAS);
+
         // Petición GET
         VolleySingleton.getInstance(this).addToRequestQueue(
                 new JsonArrayRequest(Request.Method.GET,
@@ -181,8 +197,11 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
                             @Override
                             public void onResponse(JSONArray response) {
+
                                 // Procesar la respuesta Json
-                                procesarRespuestaNoticias(response);
+                               procesarRespuestaNoticias(response);
+                                //Asignar elementos a views
+                                AsignarElementosViews();
                             }
                         },
                         new Response.ErrorListener() {
@@ -193,21 +212,103 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                         }
                 )
         );
+
+
     }
 
-    private void procesarRespuestaNoticias(JSONArray response) {
-        try {
-            Promocion[] noticias = gson.fromJson(response.toString(), Promocion[].class);
-            // Inicializar adaptador
-            // adapter = new ProductoAdaptador(Arrays.asList(productos), this);
-            // Setear adaptador a la lista
-            //lista.setAdapter(adapter);
+    public void procesarRespuestaNoticias(JSONArray response) {
+        Log.d(TAG, "Procesar Respuesta Noticias.................................. ");
+        txv_titulo = findViewById(R.id.item_Titulo);
+        txv_contenido = findViewById(R.id.item_Contenido);
+        imv_noticia = findViewById(R.id.img_Noticia);
 
-        } catch (Exception e) {
-            Log.d(TAG, "ERROR:  ..............." + e.getMessage());
+        if (response != null){
+            try {
+                lista_promociones = new ArrayList<>();
+                Log.d(TAG, "Entrando a for de response.................. " + Constantes.OBTENER_NOTICIAS);
+                for(int i = 0; i<response.length(); i++){
+                    String id = response.getJSONObject(i).getString("id");
+                    String titulo = response.getJSONObject(i).getString("titulo");
+                    String contenido = response.getJSONObject(i).getString("contenido");
+                    String imagen = response.getJSONObject(i).getString("imagen");
+                    String vigencia = response.getJSONObject(i).getString("vigencia");
+
+                    //inicializamos la lista donde almacenaremos los objetos Promocion
+
+                    lista_promociones.add(new Promocion(id, titulo, contenido, imagen, vigencia));
+                }
+            } catch (Exception e) {
+                Log.d(TAG, "ERROR:  ..............." + e.getMessage());
+            }
         }
     }
 
+    private void AsignarElementosViews(){
 
+        if(lista_promociones != null){
+
+            for(int i = 0; i < lista_promociones.size(); i++){
+
+                /*
+                try {
+                    Log.d(TAG, "TIMER..............................." );
+                    Thread.sleep(3000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                */
+
+                ejecutarCambioNoticia(i);
+            }
+        }
+    }
+
+    public void hiloNoticias() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ejecutarCambioNoticia(int f){
+        TimerPromociones timerPromociones = new TimerPromociones(f);
+        timerPromociones.execute();
+    }
+
+    public class TimerPromociones extends AsyncTask<Void, Integer, Boolean> {
+
+        int i;
+
+        public TimerPromociones (int f){
+            i=f;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            for(int i=1; i<Constantes.segundosNOTICIAS; i++){
+                hiloNoticias();
+                //Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... Cambio de Noticia" + e);
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            ejecutarCambioNoticia(i);
+
+            Promocion promocion = lista_promociones.get(i);
+            txv_titulo.setText(promocion.getTitulo());
+            txv_contenido.setText(promocion.getContenido());
+            Picasso.get().load(promocion.getImagen())
+                    .error(R.mipmap.ic_isotipo)
+                    .into(imv_noticia);
+
+            //Toast.makeText(MainActivity.this, "d", Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
+
+        }
+    }
 
 }

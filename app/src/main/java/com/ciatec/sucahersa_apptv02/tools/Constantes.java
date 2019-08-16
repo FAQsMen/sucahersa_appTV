@@ -12,7 +12,7 @@ public class Constantes {
      * Puerto que utilizas para la conexión.
      * estará en  blanco si no ha configurado esta carácteristica.
      */
-    //private static final String PUERTO_HOST = ":63343";
+    //    //private static final String PUERTO_HOST = ":63343";
     private static final String PUERTO_HOST = "";
     private static final String PUERTO_HOST_sucahersa = ":8818";
 
@@ -27,7 +27,7 @@ public class Constantes {
 
     public static final String OBTENER_PRODUCTOS = "https://" + IP + PUERTO_HOST + "/api/values/productos";
     public static final String OBTENER_NOTICIAS = "https://" + IP + PUERTO_HOST + "/api/values/noticias/pantallas";
-    public static final String OBTENER_VIDEOS = "https://" + IP + PUERTO_HOST + "/api/values/videos  ";
+    public static final String OBTENER_VIDEOS = "https://" + IP + PUERTO_HOST + "/api/values/videos";
     public static final String OBTENER_PRECIOS = "http://" + IP + PUERTO_HOST_sucahersa + "/rest/CtqSrvc/Precios";
     public static final String OBTENER_PRECIOS_BY_ID = "http://" + IP + PUERTO_HOST_sucahersa + "/rest/CtqSrvc/Precios";
 
@@ -35,4 +35,12 @@ public class Constantes {
      * Clave para el valor extra que representa al identificador de un producto
      */
     public static final String EXTRA_ID = "IDEXTRA";
+
+    /**
+     * Clave para el valor extra que representa al identificador de un producto
+     */
+    public static final int segundosNOTICIAS = 5;
+    public static final int milisegundosNOTICIAS = segundosNOTICIAS * 1000;
+    public static final int segundosPRODUCTOS = 5;
+    public static final int milisegundosPRODUCTOS = segundosPRODUCTOS * 1000;
 }
