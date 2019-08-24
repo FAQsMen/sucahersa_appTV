@@ -154,7 +154,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
      * en la respuesta
      */
     public void cargarAdaptadorProducto() {
-        Log.d(TAG, "OBtener_productos: " + Constantes.OBTENER_PRODUCTOS);
+        Log.d(TAG, "Obtener_productos: " + Constantes.OBTENER_PRODUCTOS);
         // Petición GET
         VolleySingleton.getInstance(this).addToRequestQueue(
                         new JsonArrayRequest(Request.Method.GET,
