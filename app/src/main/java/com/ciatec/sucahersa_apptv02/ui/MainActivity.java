@@ -36,7 +36,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 
-public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaybackEventListener {
+public class MainActivity extends YouTubeBaseActivity
+                          implements YouTubePlayer.OnInitializedListener,
+                                     YouTubePlayer.PlaybackEventListener {
 
     String claveAPIYoutube = "AIzaSyBOogQ7p8FGSTfqqyf54j3itv4LuPqr0L0";
     YouTubePlayerView youTubePlayerView;
@@ -68,7 +70,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
+        youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
         //youTubePlayerView.initialize(claveAPIYoutube, this);
 
         listaProductos = (RecyclerView) findViewById(R.id.rcv_productos);
@@ -82,25 +84,64 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //Cargar datos Noticias
         peticionNoticias();
+
+        Toast.makeText(MainActivity.this, "-------------- onCreate ----------------", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        Toast.makeText(MainActivity.this, "-------------- onStart ----------------", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean fueRestaurado) {
+    protected void onResume() {
+
+        super.onResume();
+        Toast.makeText(MainActivity.this, "-------------- onResume ----------------", Toast.LENGTH_LONG).show();
+    }
+
+    //region REGION
+
+
+    //endregion
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean fueRestaurado) {
         if (!fueRestaurado)
         {
             //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
-            youTubePlayer.loadPlaylist("LL3HpgzTq3ErSkGkkG572hkA");
+
+            youTubePlayer.loadPlaylist(Constantes.playlist);
+            Toast.makeText(MainActivity.this, "-------------- onInitializationSuccess ----------------", Toast.LENGTH_LONG).show();
+            //PlaylistEventListener
+            youTubePlayer.setPlaylistEventListener(new YouTubePlayer.PlaylistEventListener() {
+                @Override
+                public void onPrevious() {
+                    Toast.makeText(MainActivity.this, "-------------- onPrevious ----------------", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onNext() {
+                    Toast.makeText(MainActivity.this, "-------------- onNext ----------------", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onPlaylistEnded() {
+                    Toast.makeText(MainActivity.this, "-------------- onPlaylistEnded ----------------", Toast.LENGTH_LONG).show();
+                    youTubePlayer.loadPlaylist(Constantes.playlist);
+
+                }
+            });
+
+
+
         }
     }
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        Toast.makeText(MainActivity.this, "-------------- onInitializationFailure ----------------", Toast.LENGTH_LONG).show();
         if(youTubeInitializationResult.isUserRecoverableError()){
             youTubeInitializationResult.getErrorDialog(this, 1).show();
         }else {
@@ -177,11 +218,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                         )
                 );
     }
-
     private void procesarRespuestaProducto(JSONArray response) {
         if (response != null) {
             try {
-                Log.d(TAG, "Entrando a for de response.................. " + Constantes.OBTENER_NOTICIAS);
+                Log.d(TAG, "Entrando a for de response.................. " + Constantes.OBTENER_PRODUCTOS);
 
                 for(int i = 0; i<response.length(); i++){
                     String estrella = response.getJSONObject(i).getString("estrella");

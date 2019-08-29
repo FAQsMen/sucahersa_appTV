@@ -43,4 +43,11 @@ public class Constantes {
     public static final int milisegundosNOTICIAS = segundosNOTICIAS * 1000;
     public static final int segundosPRODUCTOS = 5;
     public static final int milisegundosPRODUCTOS = segundosPRODUCTOS * 1000;
+
+    /*
+    * Playlist
+    * */
+
+    //https://www.youtube.com/playlist?list=PL7ZngWmKPSHRIMyOH424YccfmV1yj58JF
+    public static final String playlist = "PL7ZngWmKPSHRIMyOH424YccfmV1yj58JF";
 }
