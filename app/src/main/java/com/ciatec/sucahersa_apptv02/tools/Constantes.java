@@ -28,8 +28,8 @@ public class Constantes {
     public static final String OBTENER_PRODUCTOS = "https://" + IP + PUERTO_HOST + "/api/values/productos";
     public static final String OBTENER_NOTICIAS = "https://" + IP + PUERTO_HOST + "/api/values/noticias/pantallas";
     public static final String OBTENER_VIDEOS = "https://" + IP + PUERTO_HOST + "/api/values/videos";
-    public static final String OBTENER_PRECIOS = "http://" + IP + PUERTO_HOST_sucahersa + "/rest/CtqSrvc/Precios";
-    public static final String OBTENER_PRECIOS_BY_ID = "http://" + IP + PUERTO_HOST_sucahersa + "/rest/CtqSrvc/Precios";
+    public static final String OBTENER_PRECIOS = "http://" + IP_sucahersa + PUERTO_HOST_sucahersa + "/rest/CtqSrvc/Precios";
+    public static final String OBTENER_PRECIOS_BY_ID = "http://" + IP_sucahersa + PUERTO_HOST_sucahersa + "/rest/CtqSrvc/Precios";
 
     /**
      * Clave para el valor extra que representa al identificador de un producto

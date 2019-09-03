@@ -15,9 +15,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.ciatec.sucahersa_apptv02.R;
 import com.ciatec.sucahersa_apptv02.cliente.VolleySingleton;
 import com.ciatec.sucahersa_apptv02.modelo.Producto;
+import com.ciatec.sucahersa_apptv02.modelo.ProductoMerge;
+import com.ciatec.sucahersa_apptv02.modelo.ProductoPrecio;
 import com.ciatec.sucahersa_apptv02.modelo.Promocion;
 import com.ciatec.sucahersa_apptv02.tools.Constantes;
 
@@ -30,6 +33,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +56,7 @@ public class MainActivity extends YouTubeBaseActivity
 
     // Adaptador del recycler view
     private ProductoAdaptador adapter;
+    private ProductoEstrellaAdaptador adapterEstrella;
 
     // Instancia global del recycler view
     private RecyclerView listaProductos;
@@ -62,8 +67,13 @@ public class MainActivity extends YouTubeBaseActivity
 
     private Gson gson = new Gson();
 
-    List<Promocion> lista_promociones;
-    List<Producto> lista_procutoEstrella;
+    List<Promocion> list_Promociones;
+    List<Producto> list_Productos;
+    List<ProductoMerge> list_ProductosEstrella;
+    List<ProductoPrecio> list_ProductosPrecios;
+    List<ProductoMerge> list_ProductosSinEstrella;
+
+    //region CICLO DE VIDA DE LA APLICACION
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +81,7 @@ public class MainActivity extends YouTubeBaseActivity
         setContentView(R.layout.activity_main);
 
         youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
-        //youTubePlayerView.initialize(claveAPIYoutube, this);
+        youTubePlayerView.initialize(claveAPIYoutube, this);
 
         listaProductos = (RecyclerView) findViewById(R.id.rcv_productos);
         listaProductos.setHasFixedSize(true);
@@ -79,8 +89,17 @@ public class MainActivity extends YouTubeBaseActivity
         lManager = new LinearLayoutManager(this);
         listaProductos.setLayoutManager(lManager);
 
+        // Realizar petición a ws para obtener los Productos con estrella
+        peticionProductosPrecio();
+
+        // Realizar petición a ws para obtener los Productos con estrella
+        peticionProductos();
+
+        // Combinar las dos listas
+        //combinarListas();
+
         // Cargar datos en el adaptador de Productos
-        cargarAdaptadorProducto();
+        //cargarAdaptadorProducto();
 
         //Cargar datos Noticias
         peticionNoticias();
@@ -100,9 +119,6 @@ public class MainActivity extends YouTubeBaseActivity
         super.onResume();
         Toast.makeText(MainActivity.this, "-------------- onResume ----------------", Toast.LENGTH_LONG).show();
     }
-
-    //region REGION
-
 
     //endregion
 
@@ -133,9 +149,6 @@ public class MainActivity extends YouTubeBaseActivity
 
                 }
             });
-
-
-
         }
     }
 
@@ -159,6 +172,9 @@ public class MainActivity extends YouTubeBaseActivity
     protected YouTubePlayer.Provider getYoutubePLayerProvider(){
         return youTubePlayerView;
     }
+
+
+    //region YouTubePlayer.PlaybackEventListener
 
     @Override
     public void onPlaying() {
@@ -190,6 +206,215 @@ public class MainActivity extends YouTubeBaseActivity
         Toast.makeText(MainActivity.this, "onSeekTo", Toast.LENGTH_SHORT).show();
     }
 
+    //endregion
+
+    /**
+     * Carga el adaptador con los productos obtenidos
+     * en la respuesta
+     */
+    public void peticionProductosPrecio() {
+        Log.d(TAG, "Obtener_productos: " + Constantes.OBTENER_PRECIOS);
+        // Petición GET
+        VolleySingleton.getInstance(this).addToRequestQueue(
+                new JsonObjectRequest(Request.Method.GET,
+                        Constantes.OBTENER_PRECIOS,
+                        null,
+                        new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // Procesar la respuesta Json
+                                procesarRespuestaProductosPrecios(response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d(TAG, "Error Volley: " + error.toString());
+                            }
+                        }
+                )
+        );
+    }
+
+    public void peticionProductos() {
+        Log.d(TAG, "Obtener_productos: " + Constantes.OBTENER_PRODUCTOS);
+        // Petición GET
+        VolleySingleton.getInstance(this).addToRequestQueue(
+                new JsonArrayRequest(Request.Method.GET,
+                        Constantes.OBTENER_PRODUCTOS,
+                        null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                // Procesar la respuesta Json
+                                procesarRespuestaProductos(response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d(TAG, "Error Volley: " + error.toString());
+                            }
+                        }
+                )
+        );
+    }
+
+    private void procesarRespuestaProductosPrecios(JSONObject response){
+        if(response != null){
+            try
+            {
+                JSONObject jresponse = response.optJSONObject("response");
+                JSONObject jttprecios = jresponse.optJSONObject("ttPrecios");
+                JSONArray jttprecios2 = jttprecios.optJSONArray("ttPrecios");
+
+                list_ProductosPrecios = new ArrayList<>();
+
+                for(int i = 0; i<jttprecios2.length(); i++){
+                    String _articulo = jttprecios2.getJSONObject(i).getString("Articulo");
+                    String _nombre = jttprecios2.getJSONObject(i).getString("Nombre");
+                    double _menudeo = jttprecios2.getJSONObject(i).getDouble("Menudeo");
+                    double _mayoreo = jttprecios2.getJSONObject(i).getDouble("Mayoreo");
+                    int _soloMayoreo = jttprecios2.getJSONObject(i).getInt("SoloMayoreo");
+
+                    //inicializamos la lista donde almacenaremos los objetos Promocion
+                    list_ProductosPrecios.add(new ProductoPrecio(_articulo, _nombre, _menudeo,_mayoreo,_soloMayoreo));
+                }
+            }
+            catch (Exception ex){
+                Toast.makeText(MainActivity.this,
+                        "Ocurrio algo inesperado con los precios de los productos: " + ex ,
+                        Toast.LENGTH_SHORT).show();
+            }
+            finally {
+                combinarListas();
+            }
+        }else{
+            Toast.makeText(MainActivity.this,
+                    "No se pudieron obtener los precios de los productos",
+                    Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "No se pudieron obtener los precios de los productos");
+        }
+    }
+
+    private void procesarRespuestaProductos(JSONArray response){
+        if(response != null){
+            try
+            {
+                list_Productos = new ArrayList<>();
+                for(int i = 0; i<response.length(); i++){
+                    String id = response.getJSONObject(i).getString("id");
+                    String id_sch = response.getJSONObject(i).getString("idsch");
+                    String nombre = response.getJSONObject(i).getString("nombre");
+                    String imagen = response.getJSONObject(i).getString("imagen");
+                    String estrella = response.getJSONObject(i).getString("estrella");
+
+                    //inicializamos la lista donde almacenaremos los objetos Productos
+                    list_Productos.add(new Producto(id, id_sch, nombre, estrella, imagen));
+                }
+            }
+            catch (Exception ex){
+                Toast.makeText(MainActivity.this,
+                        "Ocurrio algo inesperado al obtener los productos: " + ex ,
+                        Toast.LENGTH_SHORT).show();
+            }
+            finally {
+                //Realizar petición a ws de Sucahaersa para Precios de los Productos
+                if(list_ProductosPrecios != null){
+                    combinarListas();
+                }
+
+            }
+
+        }
+        else{
+            Toast.makeText(MainActivity.this,
+                    "No se pudieron obtener los productos estrella",
+                    Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "No se pudieron obtener los productos estrella");
+        }
+    }
+
+    private void combinarListas() {
+        if (list_ProductosPrecios != null) {
+            if (list_Productos != null) {
+                String productoEstrella, productoPrecio;
+                list_ProductosEstrella = new ArrayList<>();
+                list_ProductosSinEstrella = new ArrayList<>();
+
+                for (int i = 8; i < list_Productos.size(); i++) {
+                    for (int j = 0; j < list_ProductosPrecios.size(); j++) {
+                        productoEstrella = list_Productos.get(i).getIdSCH();
+                        productoPrecio = list_ProductosPrecios.get(j).getArticulo();
+                        if (productoPrecio.equals(productoEstrella)) {
+                            Log.d(TAG, ".................  Combinar Listas ..........................");
+                            if (list_Productos.get(i).getEstrella().equals("1")){
+
+
+                                list_ProductosEstrella.add(new ProductoMerge(
+                                        list_ProductosPrecios.get(j).getArticulo(),
+                                        list_ProductosPrecios.get(j).getNombre(),
+                                        list_ProductosPrecios.get(j).getMenudeo(),
+                                        list_ProductosPrecios.get(j).getMayoreo(),
+                                        list_ProductosPrecios.get(j).getSoloMayoreo(),
+                                        list_Productos.get(i).getIdProducto(),
+                                        list_Productos.get(i).getIdSCH(),
+                                        list_Productos.get(i).getNombre(),
+                                        list_Productos.get(i).getEstrella(),
+                                        list_Productos.get(i).getImagen()
+                                ));
+
+                            }
+                            else {
+
+                                list_ProductosSinEstrella.add(new ProductoMerge(
+                                        list_ProductosPrecios.get(j).getArticulo(),
+                                        list_ProductosPrecios.get(j).getNombre(),
+                                        list_ProductosPrecios.get(j).getMenudeo(),
+                                        list_ProductosPrecios.get(j).getMayoreo(),
+                                        list_ProductosPrecios.get(j).getSoloMayoreo(),
+                                        list_Productos.get(i).getIdProducto(),
+                                        list_Productos.get(i).getIdSCH(),
+                                        list_Productos.get(i).getNombre(),
+                                        list_Productos.get(i).getEstrella(),
+                                        list_Productos.get(i).getImagen()
+                                ));
+
+                            }
+                        }
+                        // Productos sin coincidencias
+                        else{
+
+                        }
+                    }
+                }
+                //Salida del for
+                if(list_ProductosEstrella.size() > 0){
+                    //Producto Estrella
+                    adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosEstrella,MainActivity.this);
+                    listaProductosEstrella.setAdapter(adapterEstrella);
+                }
+                else if (list_ProductosSinEstrella.size() > 0){
+                    //Productos sin Estrella
+                    adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosSinEstrella,MainActivity.this);
+                    listaProductos.setAdapter(adapterEstrella);
+                }
+            }
+            // Lista vacia de productos
+            else {
+
+
+            }
+        }
+        // Lista vacia de precios de productos
+        else if(list_Productos != null){
+            adapter = new ProductoAdaptador(list_Productos, MainActivity.this);
+            listaProductos.setAdapter(adapter);
+        }
+    }
+
+
     /**
      * Carga el adaptador con los productos obtenidos
      * en la respuesta
@@ -218,26 +443,26 @@ public class MainActivity extends YouTubeBaseActivity
                         )
                 );
     }
+
     private void procesarRespuestaProducto(JSONArray response) {
         if (response != null) {
             try {
                 Log.d(TAG, "Entrando a for de response.................. " + Constantes.OBTENER_PRODUCTOS);
-
                 for(int i = 0; i<response.length(); i++){
                     String estrella = response.getJSONObject(i).getString("estrella");
-                    if(estrella == "1"){//inicializamos la lista donde almacenaremos los objetos Promocion
+                    if(estrella == "1"){//inicializamos la lista donde almacenaremos los objetos Productos
                         String id = response.getJSONObject(i).getString("id");
                         String id_sch = response.getJSONObject(i).getString("idsch");
                         String nombre = response.getJSONObject(i).getString("nombre");
                         String imagen = response.getJSONObject(i).getString("imagen");
 
                         //inicializamos la lista donde almacenaremos los objetos Promocion
-                        lista_procutoEstrella.add(new Producto(id, id_sch, nombre, estrella, imagen));
+                        list_Productos.add(new Producto(id, id_sch, nombre, estrella, imagen));
                     }
                 }
-                if(lista_procutoEstrella != null){
+                if(list_Productos != null){
                     //Producto Estrella
-                    adapter = new ProductoAdaptador(lista_procutoEstrella,MainActivity.this);
+                    adapter = new ProductoAdaptador(list_Productos,MainActivity.this);
                     listaProductosEstrella.setAdapter(adapter);
                 }
 
@@ -247,14 +472,14 @@ public class MainActivity extends YouTubeBaseActivity
                 adapter = new ProductoAdaptador(Arrays.asList(productos), this);
                 // Setear adaptador a la lista
                 listaProductos.setAdapter(adapter);
-
-
             }
             catch(Exception e){
             Log.d(TAG, "ERROR:  ..............." + e.getMessage());
             }
         }
     }
+
+    //region NOTICIAS/PROMOCIONES
 
     public void peticionNoticias() {
         Log.d(TAG, "Obtener_productos: " + Constantes.OBTENER_NOTICIAS);
@@ -295,7 +520,7 @@ public class MainActivity extends YouTubeBaseActivity
 
         if (response != null){
             try {
-                lista_promociones = new ArrayList<>();
+                list_Promociones = new ArrayList<>();
                 Log.d(TAG, "Entrando a for de response.................. " + Constantes.OBTENER_NOTICIAS);
                 for(int i = 0; i<response.length(); i++){
                     String id = response.getJSONObject(i).getString("id");
@@ -305,7 +530,7 @@ public class MainActivity extends YouTubeBaseActivity
                     String vigencia = response.getJSONObject(i).getString("vigencia");
 
                     //inicializamos la lista donde almacenaremos los objetos Promocion
-                    lista_promociones.add(new Promocion(id, titulo, contenido, imagen, vigencia));
+                    list_Promociones.add(new Promocion(id, titulo, contenido, imagen, vigencia));
                 }
             } catch (Exception e) {
                 Log.d(TAG, "ERROR:  ..............." + e.getMessage());
@@ -315,19 +540,9 @@ public class MainActivity extends YouTubeBaseActivity
 
     private void AsignarElementosViews(){
 
-        if(lista_promociones != null){
+        if(list_Promociones != null){
 
-            for(int i = 0; i < lista_promociones.size(); i++){
-
-                /*
-                try {
-                    Log.d(TAG, "TIMER..............................." );
-                    Thread.sleep(3000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                */
+            for(int i = 0; i < list_Promociones.size(); i++){
 
                 ejecutarCambioNoticia(i);
             }
@@ -346,6 +561,8 @@ public class MainActivity extends YouTubeBaseActivity
         TimerPromociones timerPromociones = new TimerPromociones(f);
         timerPromociones.execute();
     }
+
+    //endregion
 
     public class TimerPromociones extends AsyncTask<Void, Integer, Boolean> {
 
@@ -368,7 +585,7 @@ public class MainActivity extends YouTubeBaseActivity
         protected void onPostExecute(Boolean aBoolean) {
             ejecutarCambioNoticia(i);
 
-            Promocion promocion = lista_promociones.get(i);
+            Promocion promocion = list_Promociones.get(i);
             txv_titulo.setText(promocion.getTitulo());
             txv_contenido.setText(promocion.getContenido());
             Picasso.get().load(promocion.getImagen())

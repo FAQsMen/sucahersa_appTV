@@ -3,38 +3,33 @@ package com.ciatec.sucahersa_apptv02.modelo;
 public class ProductoPrecio {
 
 
-    private String id;
-    private String idsch;
+    private String articulo;
     private String nombre;
-    private String estrella;
-    private String imagen;
-    private String precio;
+    private double menudeo;
+    private double mayoreo;
+    private int solomayoreo;
 
     public ProductoPrecio
-            (String id,
-             String idsch,
+            (String articulo,
              String nombre,
-             String estrella,
-             String imagen,
-             String precio)
+             double menudeo,
+             double mayoreo,
+             int solomayoreo)
     {
-        this.id = id;
-        this.idsch = idsch;
+        this.articulo = articulo;
         this.nombre = nombre;
-        this.estrella = estrella;
-        this.imagen = imagen;
-        this.precio = precio;
+        this.menudeo = menudeo;
+        this.mayoreo = mayoreo;
+        this.solomayoreo = solomayoreo;
     }
 
-    public String getIdProducto(){return id;}
-
-    public String getIdSCH(){return idsch;}
+    public String getArticulo(){return articulo;}
 
     public String getNombre(){return nombre;}
 
-    public String getEstrella(){return estrella;}
+    public double getMenudeo(){return menudeo;}
 
-    public String getImagen(){return imagen;}
+    public double getMayoreo(){return mayoreo;}
 
-    public String getPrecio(){return precio;}
+    public int getSoloMayoreo(){return solomayoreo;}
 }

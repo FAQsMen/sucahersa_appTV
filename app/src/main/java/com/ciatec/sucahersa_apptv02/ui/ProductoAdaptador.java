@@ -101,6 +101,4 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Pr
     }
 }
 
-interface ItemClickListener {
-    void onItemClick(View view, int position);
-}
+

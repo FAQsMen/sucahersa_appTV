@@ -13,5 +13,6 @@
     <string name="GP_Contactanos">Contactanos</string>
     <string name="GP_Registrate">Regístrate</string>
     <string name="GP_Canjeapuntos">Canjea puntos</string>
+    <string name="GP_SoloMayoreo">Solo Mayoreo/Menudeo</string>
 
 </resources>
