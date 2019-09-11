@@ -143,9 +143,10 @@
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
                                 android:textColor="@color/colorSecondaryText"
-                                android:textSize="30dp"
+                                android:textSize="20dp"
                                 android:text="nombre"
                                 android:layout_marginHorizontal="5dp"
+                                android:layout_marginBottom="3dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
                             <TextView
@@ -154,7 +155,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/item_Titulo"
                                 android:textColor="@color/colorSecondaryText"
-                                android:textSize="20dp"
+                                android:textSize="15dp"
                                 android:text="@string/GP_Consultaprecio"
                                 android:layout_marginHorizontal="5dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
