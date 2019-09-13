@@ -563,9 +563,7 @@ public class MainActivity extends YouTubeBaseActivity
     private void AsignarElementosViews(){
 
         if(list_Promociones != null){
-
             for(int i = 0; i < list_Promociones.size(); i++){
-
                 ejecutarCambioNoticia(i);
             }
         }

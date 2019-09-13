@@ -63,10 +63,11 @@ public class ProductoEstrellaAdaptador
                 .error(R.mipmap.ic_isotipo)
                 .into(viewHolder.imv_producto);
         //Precio del producto
-        viewHolder.txv_precio.setText(
+        viewHolder.txv_precio.setText("$ " +
                 String.valueOf(
-                        items.get(position).getMayoreo() + items.get(position).getMenudeo()
-                ));
+                        items.get(position).getMayoreo()
+                ) + " / $"+
+                String.valueOf(items.get(position).getMenudeo()));
         if(items.get(position).getSoloMayoreo() == 1){
             viewHolder.txv_soloMayoreo.setText("SoloMayoreo");
         }else{
