@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.ciatec.sucahersa_apptv02.R;
 import com.ciatec.sucahersa_apptv02.cliente.VolleySingleton;
+import com.ciatec.sucahersa_apptv02.modelo.PlayList;
 import com.ciatec.sucahersa_apptv02.modelo.Producto;
 import com.ciatec.sucahersa_apptv02.modelo.ProductoMerge;
 import com.ciatec.sucahersa_apptv02.modelo.ProductoPrecio;
@@ -46,6 +47,7 @@ public class MainActivity extends YouTubeBaseActivity
                                      YouTubePlayer.PlaybackEventListener {
 
     String claveAPIYoutube = "AIzaSyBOogQ7p8FGSTfqqyf54j3itv4LuPqr0L0";
+
     YouTubePlayerView youTubePlayerView;
 
     TextView txv_titulo;
@@ -77,6 +79,7 @@ public class MainActivity extends YouTubeBaseActivity
     List<ProductoMerge> list_ProductosEstrella;
     List<ProductoPrecio> list_ProductosPrecios;
     List<ProductoMerge> list_ProductosSinEstrella;
+    List<PlayList> list_PlayList;
 
     //region CICLO DE VIDA DE LA APLICACION
 
@@ -86,7 +89,7 @@ public class MainActivity extends YouTubeBaseActivity
         setContentView(R.layout.activity_main);
 
         youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
-        youTubePlayerView.initialize(claveAPIYoutube, this);
+        //youTubePlayerView.initialize(claveAPIYoutube, this);
 
         listaProductos = (RecyclerView) findViewById(R.id.rcv_productos);
         listaProductos.setHasFixedSize(true);
@@ -99,13 +102,17 @@ public class MainActivity extends YouTubeBaseActivity
         lManagerEstrella = new LinearLayoutManager(this);
         listaProductosEstrella.setLayoutManager(lManagerEstrella);
 
+        // Realizar petición a ws para obtener los Productos con estrella
+        peticionProductos();
+        //ejecutarThreadProductos();
+
         // Realizar petición a ws para obtener los precios de los productos
         peticionProductosPrecio();
         //ejecutarThreadPrecios();
 
-        // Realizar petición a ws para obtener los Productos con estrella
-        peticionProductos();
-        //ejecutarThreadProductos();
+        // Realizar petición a ws para obtener las listas de reproducción
+        //ObtenerPlayList();
+        ejecutarThreadPlayList();
 
         // Combinar las dos listas
         //combinarListas();
@@ -142,31 +149,33 @@ public class MainActivity extends YouTubeBaseActivity
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean fueRestaurado) {
-        if (!fueRestaurado)
-        {
-            //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
 
-            youTubePlayer.loadPlaylist(Constantes.playlist);
-            //Toast.makeText(MainActivity.this, "-------------- onInitializationSuccess ----------------", Toast.LENGTH_LONG).show();
-            //PlaylistEventListener
-            youTubePlayer.setPlaylistEventListener(new YouTubePlayer.PlaylistEventListener() {
-                @Override
-                public void onPrevious() {
-                    //Toast.makeText(MainActivity.this, "-------------- onPrevious ----------------", Toast.LENGTH_LONG).show();
-                }
+        for(int i=0; i<list_PlayList.size(); i++) {
 
-                @Override
-                public void onNext() {
-                    //Toast.makeText(MainActivity.this, "-------------- onNext ----------------", Toast.LENGTH_LONG).show();
-                }
+            if (!fueRestaurado) {
+                //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
 
-                @Override
-                public void onPlaylistEnded() {
-                    //Toast.makeText(MainActivity.this, "-------------- onPlaylistEnded ----------------", Toast.LENGTH_LONG).show();
-                    youTubePlayer.loadPlaylist(Constantes.playlist);
+                youTubePlayer.loadPlaylist(list_PlayList.get(i).getLiga());
+                //Toast.makeText(MainActivity.this, "-------------- onInitializationSuccess ----------------", Toast.LENGTH_LONG).show();
+                //PlaylistEventListener
+                youTubePlayer.setPlaylistEventListener(new YouTubePlayer.PlaylistEventListener() {
+                    @Override
+                    public void onPrevious() {
+                        //Toast.makeText(MainActivity.this, "-------------- onPrevious ----------------", Toast.LENGTH_LONG).show();
+                    }
 
-                }
-            });
+                    @Override
+                    public void onNext() {
+                        //Toast.makeText(MainActivity.this, "-------------- onNext ----------------", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onPlaylistEnded() {
+                        //Toast.makeText(MainActivity.this, "-------------- onPlaylistEnded ----------------", Toast.LENGTH_LONG).show();
+                        youTubePlayer.loadPlaylist(list_PlayList.get(i+1).getLiga());
+                    }
+                });
+            }
         }
     }
 
@@ -258,6 +267,33 @@ public class MainActivity extends YouTubeBaseActivity
         );
     }
 
+    public void ObtenerPlayList(){
+        Log.d(TAG, "Obtener_playList: " + Constantes.OBTENER_VIDEOS);
+        // Petición GET
+        VolleySingleton.getInstance(this).addToRequestQueue(
+                new JsonArrayRequest(Request.Method.GET,
+                        Constantes.OBTENER_VIDEOS,
+                        null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                // Procesar la respuesta Json
+                                procesarRespuestaPlayList(response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d(TAG, "Error Volley: " + error.toString());
+                                Toast.makeText(MainActivity.this,
+                                        "No se pudieron obtener los videos para reproducir",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+        );
+    }
+
     public void peticionProductos() {
         Log.d(TAG, "Obtener_productos: " + Constantes.OBTENER_PRODUCTOS);
         // Petición GET
@@ -283,6 +319,38 @@ public class MainActivity extends YouTubeBaseActivity
                         }
                 )
         );
+    }
+
+    private void procesarRespuestaPlayList(JSONArray response){
+        if(response != null){
+            try
+            {
+                list_PlayList = new ArrayList<>();
+
+                for(int i = 0; i<response.length(); i++){
+                    String id = response.getJSONObject(i).getString("id");
+                    String titulo = response.getJSONObject(i).getString("titulo");
+                    String liga = response.getJSONObject(i).getString("liga");
+                    String vigencia = response.getJSONObject(i).getString("vigencia");
+
+                    //inicializamos la lista donde almacenaremos los objetos Promocion
+                    list_PlayList.add(new PlayList(id, titulo, liga, vigencia));
+                }
+            }
+            catch (Exception ex){
+                Toast.makeText(MainActivity.this,
+                        "Ocurrio algo inesperado con los links de las PLayList: " + ex ,
+                        Toast.LENGTH_SHORT).show();
+            }
+            finally {
+                //combinarListas();
+            }
+        }else{
+            Toast.makeText(MainActivity.this,
+                    "No se pudieron obtener los links de las PLayList",
+                    Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "No se pudieron obtener los links de las PLayList");
+        }
     }
 
     private void procesarRespuestaProductosPrecios(JSONObject response){
@@ -345,9 +413,12 @@ public class MainActivity extends YouTubeBaseActivity
             }
             finally {
                 //Realizar petición a ws de Sucahaersa para Precios de los Productos
+                /*
                 if(list_ProductosPrecios != null){
                     combinarListas();
                 }
+
+                 */
             }
         }
         else{
@@ -661,12 +732,17 @@ public class MainActivity extends YouTubeBaseActivity
 
     public void ejecutarThreadProductos(){
         ThreadProductos threadProductos = new ThreadProductos();
-        threadProductos.execute();
+        threadProductos.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
     }
 
     public void ejecutarThreadPrecios(){
         ThreadPrecios threadPrecios = new ThreadPrecios();
-        threadPrecios.execute();
+        threadPrecios.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+    }
+
+    public void ejecutarThreadPlayList(){
+        ThreadPlayList threadPlayList = new ThreadPlayList();
+        threadPlayList.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
     }
 
     public class TimerPromociones extends AsyncTask<Void, Integer, Boolean> {
@@ -768,7 +844,7 @@ public class MainActivity extends YouTubeBaseActivity
         }
     }
 
-   public class ThreadProductos extends AsyncTask<Void, Integer, Boolean> {
+    public class ThreadProductos extends AsyncTask<Void, Integer, Boolean> {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -808,7 +884,34 @@ public class MainActivity extends YouTubeBaseActivity
             Toast.makeText(MainActivity.this, "Refrescar Lista", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... " );
 
+            combinarListas();
+
             //ejecutarThreadPrecios();
+        }
+    }
+
+
+    public class ThreadPlayList extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... Obteniendo PLayList" );
+
+            ObtenerPlayList();
+            //Toast.makeText(MainActivity.this, "ThreadProductos", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+
+            Toast.makeText(MainActivity.this, "Obteniendo PLayList", Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... " );
+
+            youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
+            youTubePlayerView.initialize(claveAPIYoutube, this);
+
         }
     }
 }
