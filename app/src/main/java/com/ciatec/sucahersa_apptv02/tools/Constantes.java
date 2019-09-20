@@ -39,7 +39,7 @@ public class Constantes {
     /**
      * Clave para el valor extra que representa al identificador de un producto
      */
-    public static final int segundosNOTICIAS = 6;
+    public static final int segundosNOTICIAS = 5;
     public static final int milisegundosNOTICIAS = segundosNOTICIAS * 1000;
     public static final int segundosPRODUCTOS = 7;
     public static final int milisegundosPRODUCTOS = segundosPRODUCTOS * 1000;

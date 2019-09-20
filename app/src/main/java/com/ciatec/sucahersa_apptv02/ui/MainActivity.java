@@ -1,5 +1,7 @@
 package com.ciatec.sucahersa_apptv02.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,6 +26,7 @@ import com.ciatec.sucahersa_apptv02.modelo.Producto;
 import com.ciatec.sucahersa_apptv02.modelo.ProductoMerge;
 import com.ciatec.sucahersa_apptv02.modelo.ProductoPrecio;
 import com.ciatec.sucahersa_apptv02.modelo.Promocion;
+import com.ciatec.sucahersa_apptv02.tools.Conectividad;
 import com.ciatec.sucahersa_apptv02.tools.Constantes;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -45,6 +48,8 @@ import java.util.Timer;
 public class MainActivity extends YouTubeBaseActivity
                           implements YouTubePlayer.OnInitializedListener,
                                      YouTubePlayer.PlaybackEventListener {
+
+    //region variables globales
 
     String claveAPIYoutube = "AIzaSyBOogQ7p8FGSTfqqyf54j3itv4LuPqr0L0";
 
@@ -69,10 +74,7 @@ public class MainActivity extends YouTubeBaseActivity
     private RecyclerView.LayoutManager lManager;
     private RecyclerView.LayoutManager lManagerEstrella;
 
-    private Gson gson = new Gson();
-
-    boolean SeObtuvoProductos;
-    boolean SeobtuvoPrecios;
+    int c = 0;
 
     List<Promocion> list_Promociones;
     List<Producto> list_Productos;
@@ -81,6 +83,8 @@ public class MainActivity extends YouTubeBaseActivity
     List<ProductoMerge> list_ProductosSinEstrella;
     List<PlayList> list_PlayList;
 
+    //endregion
+
     //region CICLO DE VIDA DE LA APLICACION
 
     @Override
@@ -88,12 +92,12 @@ public class MainActivity extends YouTubeBaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
+        //youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
         //youTubePlayerView.initialize(claveAPIYoutube, this);
 
         listaProductos = (RecyclerView) findViewById(R.id.rcv_productos);
         listaProductos.setHasFixedSize(true);
-        listaProductosEstrella = (RecyclerView) findViewById(R.id.rcv_productos);
+        listaProductosEstrella = (RecyclerView) findViewById(R.id.rcv_productosEstrella);
         listaProductosEstrella.setHasFixedSize(true);
 
         // Usar un administrador para LinearLayout
@@ -102,30 +106,31 @@ public class MainActivity extends YouTubeBaseActivity
         lManagerEstrella = new LinearLayoutManager(this);
         listaProductosEstrella.setLayoutManager(lManagerEstrella);
 
-        // Realizar petición a ws para obtener los Productos con estrella
-        peticionProductos();
-        //ejecutarThreadProductos();
+        Conectividad conectividad = new Conectividad();
+        boolean ConexionExistente = conectividad.ProbarConexionInternet(MainActivity.this);
 
-        // Realizar petición a ws para obtener los precios de los productos
-        peticionProductosPrecio();
-        //ejecutarThreadPrecios();
+        if(ConexionExistente) {
 
-        // Realizar petición a ws para obtener las listas de reproducción
-        //ObtenerPlayList();
-        ejecutarThreadPlayList();
+            // Realizar petición a ws para obtener los Productos con estrella
+            //peticionProductos();
+            ejecutarThreadProductos();
 
-        // Combinar las dos listas
-        //combinarListas();
+            // Realizar petición a ws para obtener los precios de los productos
+            //peticionProductosPrecio();
+            ejecutarThreadPrecios();
 
-        // Cargar datos en el adaptador de Productos
-        //cargarAdaptadorProducto();
+            //Cargar datos Noticias
+            peticionNoticias();
+            //ejecutarThreadNoticias();
 
-        //Cargar datos Noticias
-        peticionNoticias();
-
-        /*Toast.makeText(MainActivity.this,
-                "-------------- onCreate ----------------",
-                Toast.LENGTH_SHORT).show();*/
+            // Realizar petición a ws para obtener las listas de reproducción
+            //ObtenerPlayList();
+            ejecutarThreadPlayList();
+        }else{
+            Toast.makeText(MainActivity.this,
+                    "No existe conexión a Internet",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -150,31 +155,52 @@ public class MainActivity extends YouTubeBaseActivity
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean fueRestaurado) {
 
-        for(int i=0; i<list_PlayList.size(); i++) {
+        Toast.makeText(MainActivity.this,
+                "PlayList: " + list_PlayList,
+                Toast.LENGTH_SHORT).show();
+        if(list_PlayList != null && list_PlayList.size()>0) {
 
-            if (!fueRestaurado) {
-                //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
+            String[] list_parts = list_PlayList.get(c).getLiga().split("=");
+            if (list_parts.length > 0) {
+                String keylist = list_parts[1];
 
-                youTubePlayer.loadPlaylist(list_PlayList.get(i).getLiga());
-                //Toast.makeText(MainActivity.this, "-------------- onInitializationSuccess ----------------", Toast.LENGTH_LONG).show();
-                //PlaylistEventListener
-                youTubePlayer.setPlaylistEventListener(new YouTubePlayer.PlaylistEventListener() {
-                    @Override
-                    public void onPrevious() {
-                        //Toast.makeText(MainActivity.this, "-------------- onPrevious ----------------", Toast.LENGTH_LONG).show();
-                    }
+                if (!fueRestaurado) {
+                    //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
 
-                    @Override
-                    public void onNext() {
-                        //Toast.makeText(MainActivity.this, "-------------- onNext ----------------", Toast.LENGTH_LONG).show();
-                    }
+                    youTubePlayer.loadPlaylist(keylist);
+                    //PlaylistEventListener
+                    youTubePlayer.setPlaylistEventListener(new YouTubePlayer.PlaylistEventListener() {
+                        @Override
+                        public void onPrevious() {
+                            //Toast.makeText(MainActivity.this, "-------------- onPrevious ----------------", Toast.LENGTH_LONG).show();
+                        }
 
-                    @Override
-                    public void onPlaylistEnded() {
-                        //Toast.makeText(MainActivity.this, "-------------- onPlaylistEnded ----------------", Toast.LENGTH_LONG).show();
-                        youTubePlayer.loadPlaylist(list_PlayList.get(i+1).getLiga());
-                    }
-                });
+                        @Override
+                        public void onNext() {
+                            //Toast.makeText(MainActivity.this, "-------------- onNext ----------------", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onPlaylistEnded() {
+                            //Toast.makeText(MainActivity.this, "-------------- onPlaylistEnded ----------------", Toast.LENGTH_LONG).show();
+                            c = c + 1;
+                            if(c <= list_PlayList.size()) {
+                                String[] list_parts = list_PlayList.get(c).getLiga().split("=");
+
+                                if (list_parts.length > 1) {
+                                    String keylist = list_parts[1];
+                                    youTubePlayer.loadPlaylist(keylist);
+                                }else{
+                                    c = c - 1;
+                                    String[] list_parts02 = list_PlayList.get(c).getLiga().split("=");
+                                    String keylist = list_parts02[1];
+                                    youTubePlayer.loadPlaylist(keylist);
+                                }
+                            }
+                        }
+                    });
+                }
+
             }
         }
     }
@@ -343,7 +369,7 @@ public class MainActivity extends YouTubeBaseActivity
                         Toast.LENGTH_SHORT).show();
             }
             finally {
-                //combinarListas();
+
             }
         }else{
             Toast.makeText(MainActivity.this,
@@ -380,7 +406,7 @@ public class MainActivity extends YouTubeBaseActivity
                         Toast.LENGTH_SHORT).show();
             }
             finally {
-                //combinarListas();
+                combinarListas();
             }
         }else{
             Toast.makeText(MainActivity.this,
@@ -428,74 +454,6 @@ public class MainActivity extends YouTubeBaseActivity
             Log.v(TAG, "No se pudieron obtener los productos estrella");
         }
     }
-
-
-//region MODULO NO SE UTLIZA
-    /**
-     * Carga el adaptador con los productos obtenidos
-     * en la respuesta
-     */
-    public void cargarAdaptadorProducto() {
-        Log.d(TAG, "Obtener_productos: " + Constantes.OBTENER_PRODUCTOS);
-        // Petición GET
-        VolleySingleton.getInstance(this).addToRequestQueue(
-                        new JsonArrayRequest(Request.Method.GET,
-                                Constantes.OBTENER_PRODUCTOS,
-                                null,
-                                new Response.Listener<JSONArray>() {
-
-                                    @Override
-                                    public void onResponse(JSONArray response) {
-                                        // Procesar la respuesta Json
-                                       // procesarRespuestaProducto(response);
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d(TAG, "Error Volley: " + error.toString());
-                                    }
-                                }
-                        )
-                );
-    }
-
-    private void procesarRespuestaProducto(JSONArray response) {
-        if (response != null) {
-            try {
-                Log.d(TAG, "Entrando a for de response.................. " + Constantes.OBTENER_PRODUCTOS);
-                for(int i = 0; i<response.length(); i++){
-                    String estrella = response.getJSONObject(i).getString("estrella");
-                    if(estrella == "1"){//inicializamos la lista donde almacenaremos los objetos Productos
-                        String id = response.getJSONObject(i).getString("id");
-                        String id_sch = response.getJSONObject(i).getString("idsch");
-                        String nombre = response.getJSONObject(i).getString("nombre");
-                        String imagen = response.getJSONObject(i).getString("imagen");
-
-                        //inicializamos la lista donde almacenaremos los objetos Promocion
-                        list_Productos.add(new Producto(id, id_sch, nombre, estrella, imagen));
-                    }
-                }
-                if(list_Productos != null){
-                    //Producto Estrella
-                    adapter = new ProductoAdaptador(list_Productos,MainActivity.this);
-                    listaProductosEstrella.setAdapter(adapter);
-                }
-
-
-                Producto[] productos = gson.fromJson(response.toString(), Producto[].class);
-                // Inicializar adaptador Productos Estrella
-                adapter = new ProductoAdaptador(Arrays.asList(productos), this);
-                // Setear adaptador a la lista
-                listaProductos.setAdapter(adapter);
-            }
-            catch(Exception e){
-            Log.d(TAG, "ERROR:  ..............." + e.getMessage());
-            }
-        }
-    }
-
-    //endregion
 
     private void combinarListas() {
         if (list_ProductosPrecios != null) {
@@ -550,11 +508,14 @@ public class MainActivity extends YouTubeBaseActivity
                     adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosEstrella,MainActivity.this);
                     listaProductosEstrella.setAdapter(adapterEstrella);
                 }
+
                 if (list_ProductosSinEstrella.size() > 0){
                     //Productos sin Estrella
                     adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosSinEstrella,MainActivity.this);
                     listaProductos.setAdapter(adapterEstrella);
                 }
+
+
             }
             // Lista vacia de productos
             else {
@@ -601,8 +562,6 @@ public class MainActivity extends YouTubeBaseActivity
                         }
                 )
         );
-
-
     }
 
     public void procesarRespuestaNoticias(JSONArray response) {
@@ -625,18 +584,27 @@ public class MainActivity extends YouTubeBaseActivity
                     //inicializamos la lista donde almacenaremos los objetos Promocion
                     list_Promociones.add(new Promocion(id, titulo, contenido, imagen, vigencia));
                 }
+
+
             } catch (Exception e) {
                 Log.d(TAG, "ERROR:  ..............." + e.getMessage());
+            }finally {
+                Promocion promocion = list_Promociones.get(0);
+                txv_titulo.setText(promocion.getTitulo());
+                txv_contenido.setText(promocion.getContenido());
+                Picasso.get().load(promocion.getImagen())
+                        .error(R.mipmap.ic_isotipo)
+                        .into(imv_noticia);
             }
         }
     }
 
     private void AsignarElementosViews(){
-
         if(list_Promociones != null){
-            for(int i = 0; i < list_Promociones.size(); i++){
+            for(int i = 1; i < list_Promociones.size(); i++){
                 ejecutarCambioNoticia(i);
             }
+            //peticionNoticias();
         }
     }
 
@@ -648,33 +616,13 @@ public class MainActivity extends YouTubeBaseActivity
         }
     }
 
-    public void ejecutarCambioNoticia(int f){
-        TimerPromociones timerPromociones = new TimerPromociones(f);
-        //timerPromociones.execute();
-        timerPromociones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        //timerPromociones.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-
-        /*
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            timerPromociones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        else
-            timerPromociones.execute();
-
-            */
-    }
-
     //endregion
     public void AsignarListasProductosEstrella(){
         if(list_ProductosEstrella != null){
-
             for(int i = 0; i < list_ProductosEstrella.size(); i++){
-
                 ejecutarCambioProductos(i);
-
             }
         }
-
     }
 
     public void RefrescarListas(){
@@ -693,9 +641,10 @@ public class MainActivity extends YouTubeBaseActivity
             adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosEstrella,MainActivity.this);
             listaProductosEstrella.setAdapter(adapterEstrella);
         }
+
         if (list_ProductosSinEstrella.size() > 0){
             //Productos sin Estrella
-            int ultimoElemento = list_ProductosSinEstrella.size();
+            int ultimoElemento = (list_ProductosSinEstrella.size())-1;
             for(int i=0; i<list_ProductosSinEstrella.size(); i++){
                 if (i == (list_ProductosSinEstrella.size()-1)){
                     list_ProductosSinEstrella.set(i,list_ProductosSinEstrella.get(0));
@@ -704,7 +653,7 @@ public class MainActivity extends YouTubeBaseActivity
                 }
             }
             adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosSinEstrella,MainActivity.this);
-            listaProductosEstrella.setAdapter(adapterEstrella);
+            listaProductos.setAdapter(adapterEstrella);
 
         }
 
@@ -718,31 +667,61 @@ public class MainActivity extends YouTubeBaseActivity
         }
     }
 
+    public void ejecutarThreadNoticias(){
+        ThreadNoticias threadNoticias = new ThreadNoticias();
+        threadNoticias.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     public void ejecutarCambioProductos(int i){
         TimerProductos timerProductos = new TimerProductos(i);
-        //timerProductos.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        timerProductos.execute();
+        //timerProductos.execute();
+        timerProductos.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         //timerProductos.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-
-            timerProductos.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        else
-            timerProductos.execute();*/
     }
 
     public void ejecutarThreadProductos(){
         ThreadProductos threadProductos = new ThreadProductos();
-        threadProductos.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        threadProductos.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void ejecutarThreadPrecios(){
         ThreadPrecios threadPrecios = new ThreadPrecios();
-        threadPrecios.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        threadPrecios.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void ejecutarThreadPlayList(){
         ThreadPlayList threadPlayList = new ThreadPlayList();
-        threadPlayList.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        threadPlayList.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void ejecutarCambioNoticia(int f){
+        TimerPromociones timerPromociones = new TimerPromociones(f);
+        timerPromociones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        /*
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            timerPromociones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        else
+            timerPromociones.execute();
+            */
+    }
+
+    public class ThreadNoticias extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            peticionNoticias();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            //Toast.makeText(MainActivity.this, "Cambio Noticia", Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
+            if(result) {
+                AsignarElementosViews();
+            }
+        }
     }
 
     public class TimerPromociones extends AsyncTask<Void, Integer, Boolean> {
@@ -766,14 +745,14 @@ public class MainActivity extends YouTubeBaseActivity
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            ejecutarCambioNoticia(i);
-
             Promocion promocion = list_Promociones.get(i);
             txv_titulo.setText(promocion.getTitulo());
             txv_contenido.setText(promocion.getContenido());
             Picasso.get().load(promocion.getImagen())
                     .error(R.mipmap.ic_isotipo)
                     .into(imv_noticia);
+
+            ejecutarCambioNoticia(i);
 
             //Toast.makeText(MainActivity.this, "Cambio Noticia", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
@@ -804,42 +783,6 @@ public class MainActivity extends YouTubeBaseActivity
             Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... " );
 
             ejecutarCambioProductos(i);
-
-        }
-    }
-
-    public class ThreadPromociones extends AsyncTask<Void, Integer, Boolean> {
-
-        int i;
-
-        public ThreadPromociones (int f){
-            i=f;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            for(int i=1; i<Constantes.segundosNOTICIAS; i++){
-
-                hiloNoticias();
-
-                //Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... Cambio de Noticia" + e);
-            }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            ejecutarCambioNoticia(i);
-
-            Promocion promocion = list_Promociones.get(i);
-            txv_titulo.setText(promocion.getTitulo());
-            txv_contenido.setText(promocion.getContenido());
-            Picasso.get().load(promocion.getImagen())
-                    .error(R.mipmap.ic_isotipo)
-                    .into(imv_noticia);
-
-            Toast.makeText(MainActivity.this, "Cambio Noticia", Toast.LENGTH_SHORT).show();
-            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
 
         }
     }
@@ -884,12 +827,17 @@ public class MainActivity extends YouTubeBaseActivity
             Toast.makeText(MainActivity.this, "Refrescar Lista", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... " );
 
-            combinarListas();
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            //combinarListas();
 
             //ejecutarThreadPrecios();
         }
     }
-
 
     public class ThreadPlayList extends AsyncTask<Void, Integer, Boolean> {
 
@@ -909,9 +857,21 @@ public class MainActivity extends YouTubeBaseActivity
             Toast.makeText(MainActivity.this, "Obteniendo PLayList", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... " );
 
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
-            youTubePlayerView.initialize(claveAPIYoutube, this);
-
+            youTubePlayerView.initialize(claveAPIYoutube, MainActivity.this);
         }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            Toast.makeText(MainActivity.this, "onCancelled", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }
