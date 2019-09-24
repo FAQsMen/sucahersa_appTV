@@ -21,7 +21,6 @@ public class Conectividad {
 
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 // Estas conectado a un Wi-Fi
-
                 Log.d("MIAPP", " Nombre red Wi-Fi: " + networkInfo.getExtraInfo());
             }
 

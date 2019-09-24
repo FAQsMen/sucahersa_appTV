@@ -6,8 +6,8 @@ android {
         applicationId "com.ciatec.sucahersa_apptv02"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 29
-        versionName "Beta 1.11"
+        versionCode 31
+        versionName "Beta 1.13"
     }
     buildTypes {
         release {

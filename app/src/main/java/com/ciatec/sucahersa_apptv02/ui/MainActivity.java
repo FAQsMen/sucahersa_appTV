@@ -75,6 +75,7 @@ public class MainActivity extends YouTubeBaseActivity
     private RecyclerView.LayoutManager lManagerEstrella;
 
     int c = 0;
+    boolean rotacionProductos = true;
 
     List<Promocion> list_Promociones;
     List<Producto> list_Productos;
@@ -111,21 +112,23 @@ public class MainActivity extends YouTubeBaseActivity
 
         if(ConexionExistente) {
 
+            ejecutarThreadPeticiones();
+
             // Realizar petición a ws para obtener los Productos con estrella
             //peticionProductos();
-            ejecutarThreadProductos();
+            //ejecutarThreadProductos();
 
             // Realizar petición a ws para obtener los precios de los productos
             //peticionProductosPrecio();
-            ejecutarThreadPrecios();
+            //ejecutarThreadPrecios();
 
             //Cargar datos Noticias
-            peticionNoticias();
+            //peticionNoticias();
             //ejecutarThreadNoticias();
 
             // Realizar petición a ws para obtener las listas de reproducción
             //ObtenerPlayList();
-            ejecutarThreadPlayList();
+            //ejecutarThreadPlayList();
         }else{
             Toast.makeText(MainActivity.this,
                     "No existe conexión a Internet",
@@ -155,52 +158,57 @@ public class MainActivity extends YouTubeBaseActivity
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean fueRestaurado) {
 
-        Toast.makeText(MainActivity.this,
-                "PlayList: " + list_PlayList,
-                Toast.LENGTH_SHORT).show();
         if(list_PlayList != null && list_PlayList.size()>0) {
 
-            String[] list_parts = list_PlayList.get(c).getLiga().split("=");
-            if (list_parts.length > 0) {
-                String keylist = list_parts[1];
+            if(list_PlayList.get(c).getLiga().contains("=")) {
 
-                if (!fueRestaurado) {
-                    //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
+                String[] list_parts = list_PlayList.get(c).getLiga().split("=");
+                if (list_parts.length > 0) {
+                    String keylist = list_parts[1];
 
-                    youTubePlayer.loadPlaylist(keylist);
-                    //PlaylistEventListener
-                    youTubePlayer.setPlaylistEventListener(new YouTubePlayer.PlaylistEventListener() {
-                        @Override
-                        public void onPrevious() {
-                            //Toast.makeText(MainActivity.this, "-------------- onPrevious ----------------", Toast.LENGTH_LONG).show();
-                        }
+                    if (!fueRestaurado) {
+                        //youTubePlayer.cueVideo("kPa9YoPZALs&list=PLty-EzYotmfSRMC1jNdbP6yygILz2wHAG");
 
-                        @Override
-                        public void onNext() {
-                            //Toast.makeText(MainActivity.this, "-------------- onNext ----------------", Toast.LENGTH_LONG).show();
-                        }
+                        youTubePlayer.loadPlaylist(keylist);
+                        //PlaylistEventListener
+                        youTubePlayer.setPlaylistEventListener(new YouTubePlayer.PlaylistEventListener() {
+                            @Override
+                            public void onPrevious() {
+                            }
 
-                        @Override
-                        public void onPlaylistEnded() {
-                            //Toast.makeText(MainActivity.this, "-------------- onPlaylistEnded ----------------", Toast.LENGTH_LONG).show();
-                            c = c + 1;
-                            if(c <= list_PlayList.size()) {
-                                String[] list_parts = list_PlayList.get(c).getLiga().split("=");
+                            @Override
+                            public void onNext() {
+                            }
 
-                                if (list_parts.length > 1) {
-                                    String keylist = list_parts[1];
-                                    youTubePlayer.loadPlaylist(keylist);
-                                }else{
+                            @Override
+                            public void onPlaylistEnded() {
+                                c = c + 1;
+                                if (c < list_PlayList.size()) {
+                                    String[] list_parts = list_PlayList.get(c).getLiga().split("=");
+
+                                    if (list_parts.length > 1) {
+                                        String keylist = list_parts[1];
+                                        youTubePlayer.loadPlaylist(keylist);
+                                    } else {
+                                        c = c - 1;
+                                        String[] list_parts02 = list_PlayList.get(c).getLiga().split("=");
+                                        String keylist = list_parts02[1];
+                                        youTubePlayer.loadPlaylist(keylist);
+                                    }
+                                }else {
                                     c = c - 1;
                                     String[] list_parts02 = list_PlayList.get(c).getLiga().split("=");
                                     String keylist = list_parts02[1];
                                     youTubePlayer.loadPlaylist(keylist);
                                 }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
 
+                }
+            }
+            else{
+                Toast.makeText(MainActivity.this,"Link de video no valido",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -406,7 +414,7 @@ public class MainActivity extends YouTubeBaseActivity
                         Toast.LENGTH_SHORT).show();
             }
             finally {
-                combinarListas();
+                //combinarListas();
             }
         }else{
             Toast.makeText(MainActivity.this,
@@ -438,6 +446,8 @@ public class MainActivity extends YouTubeBaseActivity
                         Toast.LENGTH_SHORT).show();
             }
             finally {
+
+                //combinarListas();
                 //Realizar petición a ws de Sucahaersa para Precios de los Productos
                 /*
                 if(list_ProductosPrecios != null){
@@ -525,11 +535,10 @@ public class MainActivity extends YouTubeBaseActivity
             }
         }
         // Lista vacia de precios de productos
-        else if(list_Productos.size() > 0){
+        else if(list_Productos.size() > 0 && list_Productos != null){
             adapter = new ProductoAdaptador(list_Productos, MainActivity.this);
             listaProductos.setAdapter(adapter);
         }
-
         AsignarListasProductosEstrella();
     }
 
@@ -551,7 +560,7 @@ public class MainActivity extends YouTubeBaseActivity
                                 // Procesar la respuesta Json
                                procesarRespuestaNoticias(response);
                                 //Asignar elementos a views
-                                AsignarElementosViews();
+                                //AsignarElementosViews();
                             }
                         },
                         new Response.ErrorListener() {
@@ -619,8 +628,45 @@ public class MainActivity extends YouTubeBaseActivity
     //endregion
     public void AsignarListasProductosEstrella(){
         if(list_ProductosEstrella != null){
+
+            do {
+                ejecutarRotacionProductos();
+            }while (rotacionProductos);
+
+            /*
             for(int i = 0; i < list_ProductosEstrella.size(); i++){
                 ejecutarCambioProductos(i);
+            }
+
+             */
+        }
+    }
+
+    public void RotarListas(){
+
+        if(list_ProductosEstrella.size() > 0){
+            //Producto Estrella
+            int ultimoElemento = (list_ProductosEstrella.size())-1;
+            ProductoMerge primerElemento = list_ProductosEstrella.get(0);
+            for(int i=0; i<list_ProductosEstrella.size(); i++){
+                if (i == ultimoElemento){
+                    list_ProductosEstrella.set(i,primerElemento);
+                }else{
+                    list_ProductosEstrella.set(i,list_ProductosEstrella.get(i+1));
+                }
+            }
+        }
+
+        if (list_ProductosSinEstrella.size() > 0){
+            //Productos sin Estrella
+            int ultimoElemento = (list_ProductosSinEstrella.size())-1;
+            ProductoMerge primerElemento = list_ProductosSinEstrella.get(0);
+            for(int i=0; i<list_ProductosSinEstrella.size(); i++){
+                if (i == ultimoElemento){
+                    list_ProductosSinEstrella.set(i,primerElemento);
+                }else{
+                    list_ProductosSinEstrella.set(i,list_ProductosSinEstrella.get(i+1));
+                }
             }
         }
     }
@@ -629,14 +675,13 @@ public class MainActivity extends YouTubeBaseActivity
 
         if(list_ProductosEstrella.size() > 0){
             //Producto Estrella
-            int ultimoElemento = list_ProductosEstrella.size();
+            int ultimoElemento = (list_ProductosEstrella.size())-1;
             for(int i=0; i<list_ProductosEstrella.size(); i++){
-                if (i == (list_ProductosEstrella.size()-1)){
+                if (i == ultimoElemento){
                     list_ProductosEstrella.set(i,list_ProductosEstrella.get(0));
                 }else{
                     list_ProductosEstrella.set(i,list_ProductosEstrella.get(i+1));
                 }
-
             }
             adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosEstrella,MainActivity.this);
             listaProductosEstrella.setAdapter(adapterEstrella);
@@ -654,17 +699,13 @@ public class MainActivity extends YouTubeBaseActivity
             }
             adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosSinEstrella,MainActivity.this);
             listaProductos.setAdapter(adapterEstrella);
-
         }
 
     }
 
-    public void hiloProductos() {
-        try {
-            Thread.sleep(Constantes.milisegundosPRODUCTOS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void ejecutarThreadPeticiones(){
+        ThreadPeticiones threadPeticiones = new ThreadPeticiones();
+        threadPeticiones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void ejecutarThreadNoticias(){
@@ -672,10 +713,15 @@ public class MainActivity extends YouTubeBaseActivity
         threadNoticias.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public void ejecutarRotacionProductos(){
+        PausaRotarProductos pausaRotarProductos = new PausaRotarProductos();
+        pausaRotarProductos.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     public void ejecutarCambioProductos(int i){
         TimerProductos timerProductos = new TimerProductos(i);
-        //timerProductos.execute();
         timerProductos.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //timerProductos.execute();
         //timerProductos.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
     }
 
@@ -703,25 +749,6 @@ public class MainActivity extends YouTubeBaseActivity
         else
             timerPromociones.execute();
             */
-    }
-
-    public class ThreadNoticias extends AsyncTask<Void, Integer, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            peticionNoticias();
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-
-            //Toast.makeText(MainActivity.this, "Cambio Noticia", Toast.LENGTH_SHORT).show();
-            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
-            if(result) {
-                AsignarElementosViews();
-            }
-        }
     }
 
     public class TimerPromociones extends AsyncTask<Void, Integer, Boolean> {
@@ -770,7 +797,11 @@ public class MainActivity extends YouTubeBaseActivity
         @Override
         protected Boolean doInBackground(Void... voids) {
             Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... Refrescando Listas" );
-            hiloProductos();
+            try {
+                Thread.sleep(Constantes.milisegundosPRODUCTOS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
@@ -778,12 +809,59 @@ public class MainActivity extends YouTubeBaseActivity
         protected void onPostExecute(Boolean aBoolean) {
 
             RefrescarListas();
-
-            //Toast.makeText(MainActivity.this, "Refrescar Lista", Toast.LENGTH_SHORT).show();
-            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... " );
+            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... RefrescarLista" );
 
             ejecutarCambioProductos(i);
 
+        }
+    }
+
+    public class PausaRotarProductos extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            /*
+            Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... PausaRotarProductos" );
+            try {
+                Thread.sleep(Constantes.milisegundosPRODUCTOS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            */
+
+            RotarListas();
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            //RefrescarListas();
+            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... PausaRotarProductos" );
+            //ejecutarCambioProductos(i);
+            adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosEstrella,MainActivity.this);
+            listaProductosEstrella.setAdapter(adapterEstrella);
+            adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosSinEstrella,MainActivity.this);
+            listaProductos.setAdapter(adapterEstrella);
+        }
+    }
+
+    public class ThreadNoticias extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            peticionNoticias();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            //Toast.makeText(MainActivity.this, "Cambio Noticia", Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
+            if(result) {
+                AsignarElementosViews();
+            }
         }
     }
 
@@ -827,14 +905,6 @@ public class MainActivity extends YouTubeBaseActivity
             Toast.makeText(MainActivity.this, "Refrescar Lista", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... " );
 
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            //combinarListas();
-
             //ejecutarThreadPrecios();
         }
     }
@@ -873,5 +943,63 @@ public class MainActivity extends YouTubeBaseActivity
         }
 
 
+    }
+
+    public class ThreadPeticiones extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... Peticiones" );
+
+            boolean _peticionescompletas = false;
+            boolean _plylist = false;
+            boolean _noticias = false;
+            boolean _productos = false;
+            boolean _precios = false;
+
+            ObtenerPlayList();
+            peticionNoticias();
+            peticionProductos();
+            peticionProductosPrecio();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            do {
+                if(list_PlayList != null && list_PlayList.size()>0){_plylist = true; _peticionescompletas = true;}else {_peticionescompletas = false;}
+                if(list_Promociones != null && list_Promociones.size()>0){_noticias = true; _peticionescompletas = true;} else {_peticionescompletas = false;}
+                if(list_Productos != null && list_Productos.size()>0){_productos = true; _peticionescompletas = true;} else {_peticionescompletas = false;}
+                if(list_ProductosPrecios != null && list_ProductosPrecios.size()>0){_precios = true; _peticionescompletas = true;} else {_peticionescompletas = false;}
+                Log.v(TAG, "Ejecutando do While de AsyncTask..... Peticiones" );
+
+            }while (_peticionescompletas == false );
+
+            return _peticionescompletas;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean finalizado) {
+            if (finalizado) {
+                Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... Peticiones");
+
+                //youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
+                //youTubePlayerView.initialize(claveAPIYoutube, MainActivity.this);
+
+                // Obtener productos estrella y productos sin estrella
+                combinarListas();
+
+                //Asignar elementos a views
+                AsignarElementosViews();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            Toast.makeText(MainActivity.this, "Proceso de peticiones cancelado", Toast.LENGTH_SHORT).show();
+        }
     }
 }
