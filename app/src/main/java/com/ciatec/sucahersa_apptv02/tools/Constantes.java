@@ -41,7 +41,7 @@ public class Constantes {
      */
     public static final int segundosNOTICIAS = 5;
     public static final int milisegundosNOTICIAS = segundosNOTICIAS * 1000;
-    public static final int segundosPRODUCTOS = 7;
+    public static final int segundosPRODUCTOS = 8;
     public static final int milisegundosPRODUCTOS = segundosPRODUCTOS * 1000;
 
     /*

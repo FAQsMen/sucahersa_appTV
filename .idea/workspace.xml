@@ -21,8 +21,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Conectividad.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Conectividad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoEstrellaAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoEstrellaAdaptador.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +34,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="AndroidTV_1080p_API_26" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="20a0d8fc" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -53,63 +54,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="663" selection-start-line="663" selection-end-line="663" />
+            <state relative-caret-position="620">
+              <caret line="983" selection-start-line="983" selection-end-line="983" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5192#8086#0" />
-                <element signature="e#8092#8698#0" />
-                <element signature="e#8704#8902#0" />
-                <element signature="e#9065#9282#0" />
-                <element signature="e#9288#9502#0" />
-                <element signature="e#9508#9725#0" />
-                <element signature="e#9731#9963#0" />
-                <element signature="e#9969#10188#0" />
-                <element signature="e#10211#11582#0" />
-                <element signature="e#11588#12840#0" />
-                <element signature="e#12846#14105#0" />
-                <element signature="e#14111#15414#0" />
-                <element signature="e#15420#17178#0" />
-                <element signature="e#17184#18814#0" />
-                <element signature="e#19082#23466#0" />
-                <element signature="e#22888#22917#0" />
-                <element signature="e#22992#24143#0" />
-                <element signature="e#24149#25854#0" />
-                <element signature="e#25860#26103#0" />
-                <element signature="e#26109#26275#0" />
-                <element signature="e#26562#27959#0" />
-                <element signature="e#28608#28797#0" />
-                <element signature="e#28803#28982#0" />
-                <element signature="e#28345#28638#0" />
-                <element signature="e#28623#28807#0" />
-                <element signature="e#28813#28987#0" />
-                <element signature="e#28993#29172#0" />
-                <element signature="e#29842#30260#0" />
-                <element signature="e#29839#30933#0" />
-                <element signature="e#30939#31729#0" />
-                <element signature="e#31064#31065#0" expanded="true" />
-                <element signature="e#31093#31094#0" expanded="true" />
-                <element signature="e#29533#30084#0" />
-                <element signature="e#31917#32622#0" />
-                <element signature="e#31999#32322#0" />
-                <element signature="e#32332#32616#0" />
-                <element signature="e#32669#33507#0" />
-                <element signature="e#33527#34697#0" />
-                <element signature="e#35617#37982#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/os/AsyncTask.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#2364#0" expanded="true" />
+                <element signature="e#4807#5028#0" />
+                <element signature="e#5034#5256#0" />
+                <element signature="e#5279#7880#0" />
+                <element signature="e#7886#8492#0" />
+                <element signature="e#8498#8696#0" />
+                <element signature="e#8809#8853#0" />
+                <element signature="e#8859#9076#0" />
+                <element signature="e#9082#9296#0" />
+                <element signature="e#9302#9519#0" />
+                <element signature="e#9525#9757#0" />
+                <element signature="e#9763#9982#0" />
+                <element signature="e#10005#11376#0" />
+                <element signature="e#11382#12634#0" />
+                <element signature="e#12640#13899#0" />
+                <element signature="e#13905#15208#0" />
+                <element signature="e#15214#16974#0" />
+                <element signature="e#16980#18647#0" />
+                <element signature="e#18653#22809#0" />
+                <element signature="e#26170#26491#0" />
               </folding>
             </state>
           </provider>
@@ -125,11 +95,11 @@
           <provider editor-type-id="android-manifest" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="48" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="48" />
+            <state relative-caret-position="603">
+              <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -137,27 +107,27 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+            <state relative-caret-position="136">
+              <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-          <provider editor-type-id="android-designer2" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
+            <state relative-caret-position="1479">
               <caret line="87" selection-start-line="87" selection-end-line="87" />
             </state>
           </provider>
+          <provider editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoEstrellaAdaptador.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="69" column="66" selection-start-line="69" selection-start-column="66" selection-end-line="69" selection-end-column="66" />
+            <state relative-caret-position="307">
+              <caret line="73" column="63" selection-start-line="73" selection-start-column="63" selection-end-line="73" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -192,27 +162,29 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/ProductoMerge.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoAdaptador.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_productos.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoEstrellaAdaptador.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/modelo/PlayList.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Conectividad.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoEstrellaAdaptador.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="-1808" />
+    <option name="y" value="-5" />
+    <option name="width" value="1872" />
+    <option name="height" value="1006" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -235,11 +207,46 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
+            <path>
+              <item name="sucahersa_appTV02" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="sucahersa_appTV02" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="sucahersa_appTV02" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="sucahersa_apptv02" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sucahersa_appTV02" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="sucahersa_apptv02" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="tools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sucahersa_appTV02" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="sucahersa_apptv02" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sucahersa_appTV02" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="sucahersa_apptv02" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="ProductoEstrellaAdaptador.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
             <path>
               <item name="sucahersa_appTV02" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
@@ -251,8 +258,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="AndroidTV_1080p_API_26" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-09-24T01:50:36.256Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="20a0d8fc" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-09-24T18:06:12.275Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
@@ -408,7 +415,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
+    <frame x="-1866" y="-5" width="1874" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
@@ -420,15 +427,15 @@
       <window_info id="Designer" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Resources Explorer" order="8" weight="0.3296582" />
-      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.4966924" weight="0.3425532" />
-      <window_info anchor="bottom" x="1920" y="109" width="1920" height="1017" id="Logcat" maximized="true" order="1" sideWeight="0.5341786" type="WINDOWED" visible="true" weight="0.43617022" />
-      <window_info anchor="bottom" id="TODO" order="2" sideWeight="0.4895259" weight="0.3287234" />
-      <window_info active="true" anchor="bottom" x="-1858" y="26" width="1858" height="1057" id="Debug" order="3" sideWeight="0.47905183" type="WINDOWED" visible="true" weight="0.6042553" />
-      <window_info anchor="bottom" id="Terminal" order="4" sideWeight="0.49614114" weight="0.3287234" />
-      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.5209482" side_tool="true" weight="0.2861702" />
-      <window_info anchor="bottom" id="Version Control" order="6" weight="0.3287234" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4829107" weight="0.16382979" />
-      <window_info anchor="bottom" id="Find" order="8" weight="0.3287234" />
+      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.49338478" weight="0.3425532" />
+      <window_info anchor="bottom" x="1920" y="109" width="1920" height="1017" id="Logcat" maximized="true" order="1" sideWeight="0.5341786" type="WINDOWED" weight="0.43617022" />
+      <window_info anchor="bottom" id="TODO" order="2" sideWeight="0.48897463" weight="0.3287234" />
+      <window_info anchor="bottom" auto_hide="true" x="-1826" y="280" width="1814" height="568" id="Debug" maximized="true" order="3" sideWeight="0.4779493" weight="0.57765955" />
+      <window_info anchor="bottom" id="Terminal" order="4" sideWeight="0.49558985" weight="0.3287234" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.52205074" side_tool="true" weight="0.6042553" />
+      <window_info anchor="bottom" id="Version Control" order="6" sideWeight="0.49944875" weight="0.3287234" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.48235944" weight="0.17021276" />
+      <window_info anchor="bottom" id="Find" order="8" sideWeight="0.49889746" weight="0.3287234" />
       <window_info anchor="bottom" id="Android Profiler" order="9" sideWeight="0.49944875" weight="0.9680851" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -472,7 +479,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>941</line>
+          <line>930</line>
           <properties />
           <option name="timeStamp" value="241" />
         </line-breakpoint>
@@ -490,69 +497,39 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>537</line>
+          <line>777</line>
           <properties />
-          <option name="timeStamp" value="306" />
+          <option name="timeStamp" value="349" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>675</line>
+          <line>785</line>
           <properties />
-          <option name="timeStamp" value="327" />
+          <option name="timeStamp" value="350" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>689</line>
+          <line>787</line>
           <properties />
-          <option name="timeStamp" value="328" />
+          <option name="timeStamp" value="351" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>632</line>
+          <line>735</line>
           <properties />
-          <option name="timeStamp" value="329" />
+          <option name="timeStamp" value="352" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>629</line>
+          <line>736</line>
           <properties />
-          <option name="timeStamp" value="330" />
+          <option name="timeStamp" value="355" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>717</line>
+          <line>617</line>
           <properties />
-          <option name="timeStamp" value="331" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>838</line>
-          <properties />
-          <option name="timeStamp" value="332" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>833</line>
-          <properties />
-          <option name="timeStamp" value="333" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>659</line>
-          <properties />
-          <option name="timeStamp" value="334" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>646</line>
-          <properties />
-          <option name="timeStamp" value="335" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java</url>
-          <line>665</line>
-          <properties />
-          <option name="timeStamp" value="336" />
+          <option name="timeStamp" value="359" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -643,12 +620,12 @@
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_productos.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
           <caret line="50" column="54" selection-start-line="50" selection-start-column="54" selection-end-line="50" selection-end-column="54" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/app/Instrumentation.class">
       <provider selected="true" editor-type-id="text-editor">
@@ -717,10 +694,19 @@
     <entry file="jar://$PROJECT_DIR$/app/libs/YouTubeAndroidPlayerApi.jar!/com/google/android/youtube/player/YouTubePlayerView.class">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/app/Activity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#31851#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Conectividad.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="45" selection-start-line="22" selection-start-column="45" selection-end-line="22" selection-end-column="45" />
+        <state relative-caret-position="1003">
+          <caret line="59" column="9" lean-forward="true" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -735,44 +721,28 @@
       </provider>
       <provider editor-type-id="android-manifest" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="48" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoEstrellaAdaptador.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="69" column="66" selection-start-line="69" selection-start-column="66" selection-end-line="69" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="136">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
+        <state relative-caret-position="1479">
           <caret line="87" selection-start-line="87" selection-end-line="87" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/app/Activity.class">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/ProductoEstrellaAdaptador.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="307">
+          <caret line="73" column="63" selection-start-line="73" selection-start-column="63" selection-end-line="73" selection-end-column="63" />
           <folding>
-            <element signature="e#0#31851#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -787,50 +757,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/ui/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="663" selection-start-line="663" selection-end-line="663" />
+        <state relative-caret-position="620">
+          <caret line="983" selection-start-line="983" selection-end-line="983" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5192#8086#0" />
-            <element signature="e#8092#8698#0" />
-            <element signature="e#8704#8902#0" />
-            <element signature="e#9065#9282#0" />
-            <element signature="e#9288#9502#0" />
-            <element signature="e#9508#9725#0" />
-            <element signature="e#9731#9963#0" />
-            <element signature="e#9969#10188#0" />
-            <element signature="e#10211#11582#0" />
-            <element signature="e#11588#12840#0" />
-            <element signature="e#12846#14105#0" />
-            <element signature="e#14111#15414#0" />
-            <element signature="e#15420#17178#0" />
-            <element signature="e#17184#18814#0" />
-            <element signature="e#19082#23466#0" />
-            <element signature="e#22888#22917#0" />
-            <element signature="e#22992#24143#0" />
-            <element signature="e#24149#25854#0" />
-            <element signature="e#25860#26103#0" />
-            <element signature="e#26109#26275#0" />
-            <element signature="e#26562#27959#0" />
-            <element signature="e#28608#28797#0" />
-            <element signature="e#28803#28982#0" />
-            <element signature="e#28345#28638#0" />
-            <element signature="e#28623#28807#0" />
-            <element signature="e#28813#28987#0" />
-            <element signature="e#28993#29172#0" />
-            <element signature="e#29842#30260#0" />
-            <element signature="e#29839#30933#0" />
-            <element signature="e#30939#31729#0" />
-            <element signature="e#31064#31065#0" expanded="true" />
-            <element signature="e#31093#31094#0" expanded="true" />
-            <element signature="e#29533#30084#0" />
-            <element signature="e#31917#32622#0" />
-            <element signature="e#31999#32322#0" />
-            <element signature="e#32332#32616#0" />
-            <element signature="e#32669#33507#0" />
-            <element signature="e#33527#34697#0" />
-            <element signature="e#35617#37982#0" />
+            <element signature="e#4807#5028#0" />
+            <element signature="e#5034#5256#0" />
+            <element signature="e#5279#7880#0" />
+            <element signature="e#7886#8492#0" />
+            <element signature="e#8498#8696#0" />
+            <element signature="e#8809#8853#0" />
+            <element signature="e#8859#9076#0" />
+            <element signature="e#9082#9296#0" />
+            <element signature="e#9302#9519#0" />
+            <element signature="e#9525#9757#0" />
+            <element signature="e#9763#9982#0" />
+            <element signature="e#10005#11376#0" />
+            <element signature="e#11382#12634#0" />
+            <element signature="e#12640#13899#0" />
+            <element signature="e#13905#15208#0" />
+            <element signature="e#15214#16974#0" />
+            <element signature="e#16980#18647#0" />
+            <element signature="e#18653#22809#0" />
+            <element signature="e#26170#26491#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ciatec/sucahersa_apptv02/tools/Constantes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="603">
+          <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
         </state>
       </provider>
     </entry>

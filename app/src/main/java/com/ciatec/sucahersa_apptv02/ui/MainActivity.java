@@ -593,51 +593,48 @@ public class MainActivity extends YouTubeBaseActivity
                     //inicializamos la lista donde almacenaremos los objetos Promocion
                     list_Promociones.add(new Promocion(id, titulo, contenido, imagen, vigencia));
                 }
-
-
             } catch (Exception e) {
                 Log.d(TAG, "ERROR:  ..............." + e.getMessage());
             }finally {
-                Promocion promocion = list_Promociones.get(0);
-                txv_titulo.setText(promocion.getTitulo());
-                txv_contenido.setText(promocion.getContenido());
-                Picasso.get().load(promocion.getImagen())
-                        .error(R.mipmap.ic_isotipo)
-                        .into(imv_noticia);
+
             }
         }
     }
 
     private void AsignarElementosViews(){
+        int i= 0;
+
+        /*
+        Promocion promocion = list_Promociones.get(0);
+        txv_titulo.setText(promocion.getTitulo());
+        txv_contenido.setText(promocion.getContenido());
+        Picasso.get().load(promocion.getImagen())
+                .error(R.mipmap.ic_isotipo)
+                .into(imv_noticia);
+
+         */
+
+
+        ejecutarCambioNoticia(i);
+
+        /*
         if(list_Promociones != null){
             for(int i = 1; i < list_Promociones.size(); i++){
                 ejecutarCambioNoticia(i);
             }
             //peticionNoticias();
         }
-    }
-
-    public void hiloNoticias() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+         */
     }
 
     //endregion
     public void AsignarListasProductosEstrella(){
-        if(list_ProductosEstrella != null){
-
-            do {
-                ejecutarRotacionProductos();
-            }while (rotacionProductos);
-
+        if(list_ProductosEstrella != null ){
+            ejecutarRotacionProductos();
             /*
             for(int i = 0; i < list_ProductosEstrella.size(); i++){
-                ejecutarCambioProductos(i);
+                ejecutarRotacionProductos();
             }
-
              */
         }
     }
@@ -708,11 +705,6 @@ public class MainActivity extends YouTubeBaseActivity
         threadPeticiones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void ejecutarThreadNoticias(){
-        ThreadNoticias threadNoticias = new ThreadNoticias();
-        threadNoticias.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
     public void ejecutarRotacionProductos(){
         PausaRotarProductos pausaRotarProductos = new PausaRotarProductos();
         pausaRotarProductos.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -741,8 +733,12 @@ public class MainActivity extends YouTubeBaseActivity
     }
 
     public void ejecutarCambioNoticia(int f){
-        TimerPromociones timerPromociones = new TimerPromociones(f);
-        timerPromociones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if(f < list_Promociones.size()) {
+            TimerPromociones timerPromociones = new TimerPromociones(f);
+            timerPromociones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else {
+            AsignarElementosViews();
+        }
         /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             timerPromociones.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -761,28 +757,36 @@ public class MainActivity extends YouTubeBaseActivity
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            for(int i=1; i<Constantes.segundosNOTICIAS; i++){
+            //Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... TimerPromociones" );
 
-                hiloNoticias();
+            boolean timmerterminado = false;
 
-                //Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... Cambio de Noticia" + e);
+            try {
+                Thread.sleep(Constantes.milisegundosNOTICIAS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            return true;
+
+            timmerterminado = true;
+
+
+            return timmerterminado;
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            Promocion promocion = list_Promociones.get(i);
-            txv_titulo.setText(promocion.getTitulo());
-            txv_contenido.setText(promocion.getContenido());
-            Picasso.get().load(promocion.getImagen())
-                    .error(R.mipmap.ic_isotipo)
-                    .into(imv_noticia);
+        protected void onPostExecute(Boolean finalizo) {
+            if(finalizo) {
+                Promocion promocion = list_Promociones.get(i);
+                txv_titulo.setText(promocion.getTitulo());
+                txv_contenido.setText(promocion.getContenido());
+                Picasso.get().load(promocion.getImagen())
+                        .error(R.mipmap.ic_isotipo)
+                        .into(imv_noticia);
 
-            ejecutarCambioNoticia(i);
-
-            //Toast.makeText(MainActivity.this, "Cambio Noticia", Toast.LENGTH_SHORT).show();
-            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
+                ejecutarCambioNoticia(i+1);
+            }else
+                ejecutarCambioNoticia(i);
+            //Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... CambioNoticia");
 
         }
     }
@@ -820,17 +824,15 @@ public class MainActivity extends YouTubeBaseActivity
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            /*
+
             Log.v(TAG, "Ejecutando doInBackground de AsyncTask..... PausaRotarProductos" );
             try {
                 Thread.sleep(Constantes.milisegundosPRODUCTOS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            */
 
             RotarListas();
-
             return true;
         }
 
@@ -843,25 +845,12 @@ public class MainActivity extends YouTubeBaseActivity
             listaProductosEstrella.setAdapter(adapterEstrella);
             adapterEstrella = new ProductoEstrellaAdaptador(list_ProductosSinEstrella,MainActivity.this);
             listaProductos.setAdapter(adapterEstrella);
-        }
-    }
-
-    public class ThreadNoticias extends AsyncTask<Void, Integer, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            peticionNoticias();
-            return true;
+            ejecutarRotacionProductos();
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-
-            //Toast.makeText(MainActivity.this, "Cambio Noticia", Toast.LENGTH_SHORT).show();
-            Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... ");
-            if(result) {
-                AsignarElementosViews();
-            }
+        protected void onCancelled() {
+            super.onCancelled();
         }
     }
 
@@ -963,7 +952,7 @@ public class MainActivity extends YouTubeBaseActivity
             peticionProductosPrecio();
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(6000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -985,8 +974,8 @@ public class MainActivity extends YouTubeBaseActivity
             if (finalizado) {
                 Log.v(TAG, "Ejecutando onPostExecute de AsyncTask..... Peticiones");
 
-                //youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
-                //youTubePlayerView.initialize(claveAPIYoutube, MainActivity.this);
+                youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_view);
+                youTubePlayerView.initialize(claveAPIYoutube, MainActivity.this);
 
                 // Obtener productos estrella y productos sin estrella
                 combinarListas();

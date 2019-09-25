@@ -65,13 +65,13 @@ public class ProductoEstrellaAdaptador
         //Precio del producto
         viewHolder.txv_precio.setText("$ " +
                 String.valueOf(
-                        items.get(position).getMayoreo()
+                        items.get(position).getMenudeo()
                 ) + " / $"+
-                String.valueOf(items.get(position).getMenudeo()));
+                String.valueOf(items.get(position).getMayoreo()));
         if(items.get(position).getSoloMayoreo() == 1){
             viewHolder.txv_soloMayoreo.setText("SoloMayoreo");
         }else{
-            viewHolder.txv_soloMayoreo.setText("Mayoreo/Menudeo");
+            viewHolder.txv_soloMayoreo.setText("Menudeo/Mayoreo");
         }
 
     }
