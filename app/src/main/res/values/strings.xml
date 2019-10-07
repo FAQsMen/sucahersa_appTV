@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">sucahersa_appTV02</string>
+    <string name="app_name">sucahersa_appTV</string>
     <string name="fragmentProductos">Fragmentos de Productos</string>
     <string name="fragmentVideos">Fragmento de video</string>
     <string name="fragmentPromociones">Fragmento de Promociones</string>
